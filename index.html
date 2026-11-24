@@ -98,7 +98,7 @@ function render(data){
  if(kind==='bad'&&best){kind='medium';label='ARRISCA!';note=`Agora não é o melhor momento, mas há uma janela mais favorável entre ${best.label}.`;}
  $('status').className='status-main';
  $('status').innerHTML=`<div class="status-word" style="color:${kind==='good'?'#269557':kind==='medium'?'#b17a14':'#d45b50'}">${label}</div><p>${note}</p>`;
- const maxGust=Math.max(...blocks.slice(0,8).flatMap(b=>b.hours.map(h=>Number(h.wind_gusts_10m||0))),0);
+ const maxGust=Math.max(...blocks.slice(0,2).flatMap(b=>b.hours.map(h=>Number(h.wind_gusts_10m||0))),0);
  $('mascotText').textContent=mascotMessage(kind,maxGust);$('mascotMessage').hidden=false;
  const alert=$('windAlert');
  if(maxGust>=35){alert.className='wind-alert show'+(maxGust>=45?' severe':'');alert.textContent=maxGust>=45?`⚠️ RAJADAS MUITO FORTES — até ${Math.round(maxGust)} km/h. A roupa pode voar. Evita estender no exterior.`:`💨 VENTO FORTE — rajadas até ${Math.round(maxGust)} km/h. Prende bem a roupa e verifica o estendal.`;}
