@@ -65,6 +65,14 @@ header{text-align:center;padding:8px 5px 7px}
 .drying-chip{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:6px 10px;font-size:11px;color:var(--muted)}
 .drying-warning{font-size:11px;color:var(--muted);line-height:1.45;margin-top:10px}
 
+.hourly-strip{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(92px,1fr);gap:8px;overflow-x:auto;padding:2px 2px 10px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch}
+.hour-card{scroll-snap-align:start;background:var(--card);border:1px solid var(--line);border-radius:15px;padding:10px 8px;text-align:center;min-width:0}
+.hour-card.now{outline:2px solid var(--accent);outline-offset:1px}
+.hour-time{font-size:12px;font-weight:1000}
+.hour-icon{font-size:23px;margin:7px 0}
+.hour-temp{font-size:19px;font-weight:1000}
+.hour-meta{font-size:10px;color:var(--muted);line-height:1.65;margin-top:5px}
+.hour-now{font-size:9px;color:var(--accent);font-weight:1000;margin-top:3px}
 .periods{display:grid;grid-template-columns:1fr 1fr;gap:9px}
 .period{position:relative;border-radius:18px;padding:12px 9px;min-height:170px;text-align:center;background:var(--card);border:1px solid var(--line)}
 .period.good{border-top:4px solid #36a968}
@@ -121,6 +129,7 @@ footer{text-align:center;color:white;text-shadow:0 2px 5px #183c36;font-size:10p
 <div class="panel"><div class="section-title">☀️ A DECISÃO DE HOJE</div><div id="status" class="loading">Escolhe uma localidade para consultar a meteorologia.</div><div class="mascot-message" id="mascotMessage" hidden><svg class="towel" viewBox="0 0 90 80" aria-hidden="true"><path d="M18 15 Q45 7 72 15 L77 60 Q46 70 13 60Z" fill="#fff" stroke="#cbded5" stroke-width="3"/><path d="M20 24 Q45 29 72 23 M18 52 Q45 58 74 51" fill="none" stroke="#b9d6ca" stroke-width="3"/><circle cx="35" cy="37" r="3" fill="#31564a"/><circle cx="55" cy="37" r="3" fill="#31564a"/><path d="M37 47 Q45 53 54 47" fill="none" stroke="#31564a" stroke-width="2.5" stroke-linecap="round"/></svg><div><div class="mascot-title">O CONSELHO DO TOALHAS</div><div class="mascot-text" id="mascotText"></div></div></div></div>
 <div id="windAlert" class="wind-alert" role="alert"></div>
 <div class="panel drying-panel"><div class="section-title">🧺 SE ESTENDERES AGORA...</div><div id="dryingEstimate"><div class="loading">A estimativa aparece depois de escolheres a localidade.</div></div></div>
+<div class="panel"><div class="section-title">⏱️ PRÓXIMAS HORAS</div><div id="hourlyForecast" class="hourly-strip"><div class="loading">A previsão hora a hora aparece aqui.</div></div></div>
 <div class="panel"><div class="section-title">🕒 HOJE — PERÍODOS DE 6 HORAS</div><div id="todayPeriods" class="periods"><div class="loading">À espera da localidade.</div></div></div>
 <div class="days-title">📅 OS PRÓXIMOS 3 DIAS</div><div id="days"><div class="loading">A previsão dos próximos dias aparece aqui.</div></div>
 <footer>As recomendações consideram chuva, temperatura, humidade, vento, rajadas e radiação solar. O tempo de secagem é uma estimativa, não uma garantia: varia com os tecidos, a quantidade de roupa e a forma como está estendida.</footer>
@@ -137,8 +146,8 @@ let forecastTimezone='Europe/Lisbon';
 function safeGet(key,fallback=null){try{const v=localStorage.getItem(key);
 return v===null?fallback:v}catch(e){return fallback}}
 function safeSet(key,value){try{localStorage.setItem(key,value)}catch(e){}}
-function updateClock(){ $('clock').textContent=new Date().toLocaleTimeString('pt-PT',{hour:'2-digit',minute:'2-digit'});
- }
+function updateClock(){const el=$('clock');if(!el)return;el.textContent=new Intl.DateTimeFormat('pt-PT',{hour:'2-digit',minute:'2-digit',hour12:false,timeZone:'Europe/Lisbon'}).format(new Date());}
+
 updateClock();
 setInterval(updateClock,15000);
 
@@ -225,21 +234,4 @@ let note='Estimativa baseada na temperatura, humidade, vento, radiação solar e
 if(used>=12)note+=' A falta de sol, sobretudo à noite, pode prolongar a secagem.';
 if(confidence==='Baixa')note+=' A incerteza é elevada: acompanha as atualizações.';
 return{text:`${low}–${high} horas`,confidence,note}}
-function render(data){const blocks=buildBlocks(data);
-const nowBlock=blocks.find(b=>b.current)||blocks[0];
-const today=blocks.filter(b=>b.day===dateKey(new Date()));
-const best=today.find(b=>b.evaluation.kind==='good');
-let kind=nowBlock.evaluation.kind,label=nowBlock.evaluation.label,note=nowBlock.evaluation.note;
-if(kind==='bad'&&best){kind='medium';
-label='ARRISCA!';
-note=`Agora não é o melhor momento, mas há uma janela mais favorável entre ${best.label}.`}
-const color=kind==='good'?'#269557':kind==='medium'?'#b17a14':'#d45b50';
-$('status').className='status-main';
-$('status').innerHTML=`<div class="status-word" style="color:${color}">${label}</div><p>${note}</p>`;
-const next12=blocks.slice(0,2).flatMap(b=>b.hours);
-const maxGust=Math.max(0,...next12.map(h=>Number(h.wind_gusts_10m||0)));
-$('mascotText').textContent=towelMessage(kind,maxGust);
-$('mascotMessage').hidden=false;
-const alert=$('windAlert');
-if(maxGust>=45){alert.className='wind-alert show severe';
-alert.te
+function renderHourly(d
