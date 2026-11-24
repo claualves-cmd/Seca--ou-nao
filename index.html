@@ -6,345 +6,57 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#42a9d5">
 <title>Seca ou Não?</title>
-
 <style>
 *{box-sizing:border-box}
-
-body{
- margin:0;
- font-family:Arial,sans-serif;
- color:#24443b;
- background:#e8f5f5;
-}
-
-header{
- text-align:center;
- padding:25px 15px 12px;
-}
-
-h1{
- font-size:34px;
- margin:0;
- color:#17634d;
- font-weight:900;
-}
-
-header p{
- margin:7px 0;
- color:#54746c;
- font-size:15px;
-}
-
-main{
- max-width:480px;
- margin:auto;
- padding:10px 15px 25px;
-}
-
-/* CENÁRIO */
-
-.scene{
- height:215px;
- position:relative;
- overflow:hidden;
- border-radius:25px;
- margin-bottom:17px;
- background:linear-gradient(
-  #63c6ed 0%,
-  #b5e8f2 57%,
-  #8bcf70 58%,
-  #439b55 100%
- );
- box-shadow:0 5px 15px #315f4820;
-}
-
-.sun{
- position:absolute;
- width:65px;
- height:65px;
- border-radius:50%;
- background:#ffdc53;
- right:35px;
- top:20px;
- box-shadow:0 0 30px #ffe477;
-}
-
-.cloud{
- position:absolute;
- top:48px;
- left:35px;
- width:80px;
- height:23px;
- border-radius:30px;
- background:white;
- opacity:.9;
-}
-.cloud:before{
- content:"";
- position:absolute;
- width:35px;
- height:35px;
- border-radius:50%;
- background:white;
- top:-17px;
- left:15px;
-}
-.cloud:after{
- content:"";
- position:absolute;
- width:30px;
- height:30px;
- border-radius:50%;
- background:white;
- top:-10px;
- right:10px;
-}
-
-.hill{
- position:absolute;
- bottom:35px;
- width:150%;
- height:90px;
- left:-20%;
- border-radius:50% 50% 0 0;
- background:#5bad60;
-}
-
-.house{
- position:absolute;
- bottom:25px;
- left:8%;
- width:100px;
- height:85px;
- background:#fff0cf;
- border:3px solid #d39a64;
-}
-.roof{
- position:absolute;
- top:-24px;
- left:-10px;
- width:115px;
- height:28px;
- background:#c66e49;
- transform:skewY(-15deg);
-}
-.window{
- position:absolute;
- top:18px;
- left:28px;
- width:40px;
- height:38px;
- background:#80c7d7;
- border:4px solid #bd8255;
-}
-
-.line{
- position:absolute;
- top:83px;
- left:5%;
- width:90%;
- height:3px;
- background:#526b4b;
- transform:rotate(-2deg);
-}
-
-.cloth{
- position:absolute;
- top:85px;
- width:31px;
- height:65px;
- border-radius:2px 2px 9px 9px;
- box-shadow:1px 2px 3px #3333;
-}
-.c1{left:19%;background:#ffce65}
-.c2{left:30%;background:#fff8e9}
-.c3{left:41%;background:#f28b8b}
-.c4{left:53%;background:#79c5df}
-.c5{left:65%;background:#fff0cf}
-
-.scene-label{
- position:absolute;
- bottom:12px;
- right:13px;
- color:white;
- font-weight:bold;
- font-size:12px;
- text-shadow:1px 2px 3px #245b36;
-}
-
-/* CARTÕES */
-
-.card{
- background:white;
- border-radius:20px;
- padding:18px;
- margin-bottom:15px;
- box-shadow:0 4px 14px #24443b12;
-}
-
-h2{
- font-size:18px;
- margin:0 0 13px;
- color:#245b49;
-}
-
-.today{
- display:flex;
- align-items:center;
- justify-content:space-between;
- gap:8px;
-}
-
-.big{
- font-size:49px;
- font-weight:900;
- color:#269b58;
-}
-
-.subtitle{
- color:#71857b;
- font-size:13px;
- margin-top:7px;
-}
-
-.today-icon{
- font-size:35px;
-}
-
-.advice{
- display:inline-block;
- padding:7px 10px;
- border-radius:20px;
- background:#d9f2d9;
- color:#258344;
- font-size:11px;
- font-weight:900;
-}
-
-/* PERÍODOS */
-
-.periods{
- display:grid;
- grid-template-columns:1fr 1fr;
- gap:10px;
-}
-
-.period{
- background:#fff6dc;
- border-radius:15px;
- padding:13px;
-}
-
-.period:nth-child(2){
- background:#e5f5df;
-}
-
-.period strong{
- display:block;
- font-size:13px;
- margin-bottom:7px;
-}
-
-.period b{
- font-size:27px;
-}
-
-.period p{
- font-size:11px;
- margin:6px 0 0;
- color:#63766a;
- font-weight:bold;
-}
-
-/* PRÓXIMOS DIAS */
-
-.days{
- display:grid;
- grid-template-columns:repeat(3,1fr);
- gap:9px;
-}
-
-.day{
- border-radius:15px;
- padding:12px 5px;
- text-align:center;
- background:#e8f5f0;
- min-width:0;
-}
-
+body{margin:0;font-family:Arial,sans-serif;color:#24443b;background:linear-gradient(180deg,#d9f2fa,#f5f8e9)}
+header{text-align:center;padding:22px 15px 10px}
+h1{font-size:34px;margin:0;color:#17634d;font-weight:900}
+header p{margin:7px 0;color:#54746c;font-size:14px}
+main{max-width:480px;margin:auto;padding:10px 15px 25px}
+.location-box{background:white;border-radius:18px;padding:13px 15px;margin-bottom:14px;box-shadow:0 4px 14px #24443b12}
+.location-line{display:flex;align-items:center;gap:8px}
+.pin{font-size:22px}
+.location-name{font-size:16px;font-weight:900;color:#245b49;flex:1}
+.small-button{border:0;border-radius:20px;background:#e3f3f8;color:#176b91;padding:9px 12px;font-size:12px;font-weight:bold}
+.location-form{display:none;gap:7px;margin-top:12px}
+.location-form.show{display:flex}
+.location-form input{min-width:0;flex:1;border:1px solid #c8ded8;border-radius:12px;padding:12px;font-size:14px}
+.location-form button{border:0;border-radius:12px;background:#278c69;color:white;padding:0 14px;font-weight:bold}
+.location-help{font-size:11px;color:#71857b;margin:9px 0 0}
+.scene{height:210px;border-radius:25px;margin-bottom:15px;position:relative;overflow:hidden;background:linear-gradient(180deg,#00000008,#00000018),url("fundo.jpg") center/cover no-repeat,linear-gradient(135deg,#63c6ed,#8bcf70);box-shadow:0 5px 15px #315f4820}
+.scene-label{position:absolute;bottom:13px;right:13px;color:white;font-weight:bold;font-size:13px;text-shadow:1px 2px 5px #245b36;background:#245b3670;padding:8px 12px;border-radius:20px}
+.card{background:white;border-radius:20px;padding:18px;margin-bottom:15px;box-shadow:0 4px 14px #24443b12}
+h2{font-size:18px;margin:0 0 13px;color:#245b49}
+.today{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.big{font-size:49px;font-weight:900;color:#269b58}
+.subtitle{color:#71857b;font-size:13px;margin-top:7px;line-height:1.4}
+.today-icon{font-size:35px}
+.advice{display:inline-block;padding:7px 10px;border-radius:20px;background:#d9f2d9;color:#258344;font-size:11px;font-weight:900}
+.advice.medium{background:#fff0c9;color:#95600c}
+.advice.bad{background:#f9dfdc;color:#a73e36}
+.periods{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.period{background:#fff6dc;border-radius:15px;padding:13px}
+.period:nth-child(2){background:#e5f5df}
+.period strong{display:block;font-size:13px;margin-bottom:7px}
+.period b{font-size:27px}
+.period p{font-size:11px;margin:6px 0 0;color:#63766a;font-weight:bold}
+.days{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
+.day{border-radius:15px;padding:12px 5px;text-align:center;background:#e8f5f0;min-width:0}
 .day:nth-child(2){background:#fff4d6}
 .day:nth-child(3){background:#fce8e5}
-
-.day-name{
- font-size:12px;
- font-weight:900;
-}
-
-.day-icon{
- font-size:27px;
- margin:8px 0;
-}
-
-.day-percent{
- font-size:22px;
- font-weight:900;
- color:#286b4a;
-}
-
-.day:nth-child(2) .day-percent{color:#ad771a}
-.day:nth-child(3) .day-percent{color:#c45148}
-
-.day small{
- display:block;
- font-size:10px;
- margin-top:5px;
- color:#64776e;
-}
-
-.day-tag{
- display:inline-block;
- border-radius:20px;
- padding:5px 4px;
- margin-top:9px;
- font-size:9px;
- font-weight:900;
- line-height:1.2;
- background:#c9edcf;
- color:#246e3b;
-}
-
-.day:nth-child(2) .day-tag{
- background:#ffe4a3;
- color:#95600c;
-}
-
-.day:nth-child(3) .day-tag{
- background:#f5c9c4;
- color:#a73e36;
-}
-
-button{
- width:100%;
- border:0;
- border-radius:17px;
- padding:18px;
- background:#ffb934;
- color:#49320b;
- font-size:17px;
- font-weight:900;
- box-shadow:0 4px 0 #df9823;
- margin-top:3px;
-}
-
-.note{
- font-size:10px;
- text-align:center;
- color:#788c81;
- margin-top:18px;
-}
+.day-name{font-size:12px;font-weight:900}
+.day-icon{font-size:27px;margin:8px 0}
+.day-percent{font-size:22px;font-weight:900;color:#286b4a}
+.day small{display:block;font-size:10px;margin-top:5px;color:#64776e}
+.day-tag{display:inline-block;border-radius:20px;padding:5px 4px;margin-top:9px;font-size:9px;font-weight:900;line-height:1.2;background:#c9edcf;color:#246e3b}
+.day-tag.medium{background:#ffe4a3;color:#95600c}
+.day-tag.bad{background:#f5c9c4;color:#a73e36}
+.main-button{width:100%;border:0;border-radius:17px;padding:16px;background:#ffb934;color:#49320b;font-size:15px;font-weight:900;box-shadow:0 4px 0 #df9823;margin-top:3px;cursor:pointer}
+.main-button:disabled{opacity:.6}
+.status{text-align:center;font-size:12px;color:#54746c;margin:10px 0 13px;min-height:16px}
+.note{font-size:10px;text-align:center;color:#788c81;margin-top:16px;line-height:1.4}
 </style>
 </head>
-
 <body>
 
 <header>
@@ -354,95 +66,264 @@ button{
 
 <main>
 
+<div class="location-box">
+ <div class="location-line">
+  <span class="pin">📍</span>
+  <span class="location-name" id="locationName">A detetar localização...</span>
+  <button class="small-button" onclick="toggleLocation()">ALTERAR</button>
+ </div>
+ <div class="location-form" id="locationForm">
+  <input id="placeInput" type="text" placeholder="Ex.: Massamá, Sintra">
+  <button onclick="searchPlace()">OK</button>
+ </div>
+ <p class="location-help" id="locationHelp">A previsão será adaptada à tua zona.</p>
+</div>
+
 <div class="scene">
-<div class="sun"></div>
-<div class="cloud"></div>
-<div class="hill"></div>
-<div class="house">
-<div class="roof"></div>
-<div class="window"></div>
-</div>
-<div class="line"></div>
-<div class="cloth c1"></div>
-<div class="cloth c2"></div>
-<div class="cloth c3"></div>
-<div class="cloth c4"></div>
-<div class="cloth c5"></div>
-<div class="scene-label">☀️ Um bom dia para secar!</div>
+ <div class="scene-label">☀️ O tempo certo para secar!</div>
 </div>
 
+<div class="status" id="status">A preparar a previsão...</div>
+
 <section class="card">
-<div class="today">
-<div>
-<h2>HOJE</h2>
-<span class="advice">EXCELENTE · APROVEITA!</span>
-<p class="subtitle">As condições são muito favoráveis.</p>
-</div>
-<div>
-<div class="big">92%</div>
-<div class="today-icon">☀️</div>
-</div>
-</div>
+ <div class="today">
+  <div>
+   <h2>HOJE</h2>
+   <span class="advice" id="todayAdvice">A calcular...</span>
+   <p class="subtitle" id="todayMessage">A analisar as condições.</p>
+  </div>
+  <div style="text-align:center">
+   <div class="big" id="todayScore">--%</div>
+   <div class="today-icon" id="todayIcon">🌤️</div>
+  </div>
+ </div>
 </section>
 
 <section class="card">
-<h2>⏰ Qual é a melhor altura?</h2>
-<div class="periods">
-<div class="period">
-<strong>🌤️ MANHÃ</strong>
-<b style="color:#b57a19">65%</b>
-<p>RAZOÁVEL</p>
-</div>
-<div class="period">
-<strong>☀️ TARDE</strong>
-<b style="color:#34834b">92%</b>
-<p>EXCELENTE</p>
-</div>
-</div>
-<p class="subtitle"><strong>O nosso conselho:</strong> Espera pela tarde!</p>
+ <h2>⏰ Qual é a melhor altura?</h2>
+ <div class="periods">
+  <div class="period">
+   <strong>🌤️ MANHÃ</strong>
+   <b id="morningScore" style="color:#b57a19">--%</b>
+   <p id="morningAdvice">A calcular...</p>
+  </div>
+  <div class="period">
+   <strong>☀️ TARDE</strong>
+   <b id="afternoonScore" style="color:#34834b">--%</b>
+   <p id="afternoonAdvice">A calcular...</p>
+  </div>
+ </div>
+ <p class="subtitle" id="recommendation">O nosso conselho: a analisar...</p>
 </section>
 
 <section class="card">
-<h2>📅 PRÓXIMOS 3 DIAS</h2>
-
-<div class="days">
-
-<div class="day">
-<div class="day-name">AMANHÃ</div>
-<div class="day-icon">🌦️</div>
-<div class="day-percent">60%</div>
-<small>Manhã / Tarde</small>
-<span class="day-tag">ARRISCA!</span>
-</div>
-
-<div class="day">
-<div class="day-name">QUINTA</div>
-<div class="day-icon">☀️</div>
-<div class="day-percent">90%</div>
-<small>Manhã / Tarde</small>
-<span class="day-tag">APROVEITA!</span>
-</div>
-
-<div class="day">
-<div class="day-name">SEXTA</div>
-<div class="day-icon">🌧️</div>
-<div class="day-percent">15%</div>
-<small>Manhã / Tarde</small>
-<span class="day-tag">NÃO VALE A PENA</span>
-</div>
-
-</div>
+ <h2>📅 PRÓXIMOS 3 DIAS</h2>
+ <div class="days" id="days">
+  <div class="day">A consultar...</div>
+  <div class="day">A consultar...</div>
+  <div class="day">A consultar...</div>
+ </div>
 </section>
 
-<button onclick="alert('Em breve: análise do ciclo da máquina e melhor hora para estender!')">
-🧺 Analisar a minha roupa
-</button>
+<button class="main-button" id="locationButton" onclick="askLocation()">📍 Usar a minha localização</button>
 
-<p class="note">
-Protótipo inicial · Valores ilustrativos, ainda sem previsão meteorológica real.
-</p>
-
+<p class="note">A percentagem é um índice indicativo de condições favoráveis para secar roupa, não uma probabilidade oficial de secagem.</p>
 </main>
+
+<script>
+const $=id=>document.getElementById(id);
+let currentLat=null,currentLon=null;
+
+function classification(score){
+ if(score>=75)return{label:"APROVEITA!",kind:"good",message:"Condições muito favoráveis."};
+ if(score>=45)return{label:"ARRISCA!",kind:"medium",message:"Condições razoáveis. Fica atento ao tempo."};
+ return{label:"NÃO VALE A PENA",kind:"bad",message:"Hoje não é um bom dia para estender."};
+}
+
+function weatherIcon(code){
+ if(code>=95)return"⛈️";
+ if(code>=71&&code<=77)return"🌨️";
+ if(code>=61&&code<=82)return"🌧️";
+ if(code>=45&&code<=48)return"🌫️";
+ if(code===0)return"☀️";
+ if(code===1||code===2)return"🌤️";
+ if(code===3)return"☁️";
+ return"🌤️";
+}
+
+function average(values){
+ return values.length?values.reduce((a,b)=>a+b,0)/values.length:0;
+}
+
+function calculate(hours){
+ if(!hours.length)return 0;
+ const rain=average(hours.map(h=>h.rain));
+ const humidity=average(hours.map(h=>h.humidity));
+ const temp=average(hours.map(h=>h.temp));
+ const wind=average(hours.map(h=>h.wind));
+ let score=100;
+ score-=rain*0.65;
+ score-=Math.max(0,humidity-55)*0.65;
+ score-=Math.max(0,15-temp)*2;
+ score-=Math.max(0,wind-25)*1.2;
+ score-=Math.max(0,5-wind)*1.5;
+ return Math.round(Math.max(0,Math.min(100,score)));
+}
+
+function dateLabel(date){
+ const today=new Date();
+ const d=new Date(date+"T12:00:00");
+ const diff=Math.round((new Date(d.getFullYear(),d.getMonth(),d.getDate())-new Date(today.getFullYear(),today.getMonth(),today.getDate()))/86400000);
+ if(diff===1)return"AMANHÃ";
+ return d.toLocaleDateString("pt-PT",{weekday:"long"}).toUpperCase();
+}
+
+function render(data){
+ const times=data.hourly.time;
+ const grouped={};
+ times.forEach((time,i)=>{
+  const date=time.slice(0,10);
+  if(!grouped[date])grouped[date]=[];
+  grouped[date].push({
+   hour:Number(time.slice(11,13)),
+   temp:data.hourly.temperature_2m[i],
+   humidity:data.hourly.relative_humidity_2m[i],
+   rain:data.hourly.precipitation_probability[i]??0,
+   wind:data.hourly.wind_speed_10m[i]??0
+  });
+ });
+ const dates=Object.keys(grouped);
+ if(!dates.length)throw new Error("Sem dados de previsão.");
+
+ function periodScore(date,start,end){
+  return calculate(grouped[date].filter(h=>h.hour>=start&&h.hour<end));
+ }
+
+ const today=dates[0];
+ const morning=periodScore(today,8,13);
+ const afternoon=periodScore(today,13,19);
+ const best=Math.max(morning,afternoon);
+ const result=classification(best);
+
+ $("todayScore").textContent=best+"%";
+ $("todayAdvice").textContent=result.label;
+ $("todayAdvice").className="advice "+result.kind;
+ $("todayMessage").textContent=result.message;
+ $("morningScore").textContent=morning+"%";
+ $("afternoonScore").textContent=afternoon+"%";
+ $("morningAdvice").textContent=classification(morning).label;
+ $("afternoonAdvice").textContent=classification(afternoon).label;
+ $("todayIcon").textContent=weatherIcon(data.daily.weather_code[0]);
+
+ const bestPeriod=morning>=afternoon?"manhã":"tarde";
+ $("recommendation").innerHTML="<strong>O nosso conselho:</strong> Melhor aproveitar a "+bestPeriod+".";
+
+ $("days").innerHTML=dates.slice(1,4).map(date=>{
+  const m=periodScore(date,8,13);
+  const a=periodScore(date,13,19);
+  const score=Math.max(m,a);
+  const result=classification(score);
+  return `<div class="day">
+   <div class="day-name">${dateLabel(date)}</div>
+   <div class="day-icon">${weatherIcon(data.daily.weather_code[dates.indexOf(date)])}</div>
+   <div class="day-percent">${score}%</div>
+   <small>Melhor: ${m>=a?"manhã":"tarde"}</small>
+   <span class="day-tag ${result.kind}">${result.label}</span>
+  </div>`;
+ }).join("");
+
+ $("status").textContent="Previsão atualizada.";
+}
+
+async function getForecast(lat,lon){
+ $("status").textContent="A consultar a meteorologia...";
+ const url="https://api.open-meteo.com/v1/forecast"+
+ "?latitude="+lat+"&longitude="+lon+
+ "&hourly=temperature_2m,relative_humidity_2m,precipitation_probability,wind_speed_10m"+
+ "&daily=weather_code&forecast_days=4&timezone=auto";
+ const response=await fetch(url);
+ if(!response.ok)throw new Error("Não foi possível consultar a previsão.");
+ const data=await response.json();
+ render(data);
+}
+
+async function reverseName(lat,lon){
+ try{
+  const url="https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat="+lat+"&lon="+lon+"&zoom=14&accept-language=pt";
+  const response=await fetch(url);
+  const data=await response.json();
+  const a=data.address||{};
+  return a.suburb||a.town||a.city_district||a.city||a.village||"A tua localização";
+ }catch(e){
+  return"A tua localização";
+ }
+}
+
+async function useCoordinates(lat,lon,name){
+ currentLat=lat;currentLon=lon;
+ $("locationName").textContent=name;
+ $("locationHelp").textContent="Previsão para "+name+".";
+ $("locationForm").classList.remove("show");
+ try{
+  await getForecast(lat,lon);
+ }catch(e){
+  $("status").textContent="Erro ao obter a previsão. Verifica a ligação e tenta novamente.";
+ }
+}
+
+function askLocation(){
+ if(!navigator.geolocation){
+  $("status").textContent="Este navegador não permite obter a localização.";
+  return;
+ }
+ $("status").textContent="A pedir autorização para a localização...";
+ $("locationButton").disabled=true;
+ navigator.geolocation.getCurrentPosition(async position=>{
+  const lat=position.coords.latitude;
+  const lon=position.coords.longitude;
+  const name=await reverseName(lat,lon);
+  await useCoordinates(lat,lon,name);
+  $("locationButton").disabled=false;
+ },error=>{
+  $("status").textContent="Não foi possível obter a localização. Podes escrever a tua localidade acima.";
+  $("locationName").textContent="Localização por definir";
+  $("locationForm").classList.add("show");
+  $("locationButton").disabled=false;
+ },{enableHighAccuracy:false,timeout:15000,maximumAge:300000});
+}
+
+function toggleLocation(){
+ $("locationForm").classList.toggle("show");
+ $("placeInput").focus();
+}
+
+async function searchPlace(){
+ const place=$("placeInput").value.trim();
+ if(!place){
+  $("status").textContent="Escreve primeiro uma localidade.";
+  return;
+ }
+ $("status").textContent="A procurar "+place+"...";
+ try{
+  const url="https://geocoding-api.open-meteo.com/v1/search?name="+encodeURIComponent(place)+"&count=1&language=pt&format=json";
+  const response=await fetch(url);
+  const data=await response.json();
+  if(!data.results||!data.results.length)throw new Error("Localidade não encontrada.");
+  const found=data.results[0];
+  const name=[found.name,found.admin1].filter(Boolean).join(", ");
+  await useCoordinates(found.latitude,found.longitude,name);
+ }catch(e){
+  $("status").textContent="Não encontrei essa localidade. Experimenta escrever também o concelho.";
+ }
+}
+
+$("placeInput").addEventListener("keydown",e=>{
+ if(e.key==="Enter")searchPlace();
+});
+
+// Tenta obter a localização ao abrir a página.
+// Se não for possível, a pessoa pode escolher a localidade manualmente.
+askLocation();
+</script>
 </body>
 </html>
-
