@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-PT">
 <head>
@@ -9,473 +8,522 @@
 
 <style>
 *{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;color:#24443b;background:linear-gradient(180deg,#d9f2fa,#f5f8e9)}
-header{text-align:center;padding:22px 15px 10px}
-h1{font-size:34px;margin:0;color:#17634d;font-weight:900}
-header p{margin:7px 0;color:#54746c;font-size:14px}
-main{max-width:480px;margin:auto;padding:10px 15px 25px}
-.location-box,.card{background:white;border-radius:20px;padding:17px;margin-bottom:15px;box-shadow:0 4px 14px #24443b12}
-.location-line{display:flex;align-items:center;gap:8px}
-.pin{font-size:22px}
-.location-name{font-size:16px;font-weight:900;color:#245b49;flex:1}
-.small-button{border:0;border-radius:20px;background:#e3f3f8;color:#176b91;padding:9px 12px;font-size:12px;font-weight:bold}
-.location-form{display:none;gap:7px;margin-top:12px}
-.location-form.show{display:flex}
-.location-form input{min-width:0;flex:1;border:1px solid #c8ded8;border-radius:12px;padding:12px;font-size:14px}
-.location-form button{border:0;border-radius:12px;background:#278c69;color:white;padding:0 14px;font-weight:bold}
-.location-help{font-size:11px;color:#71857b;margin:9px 0 0}
-.scene{height:190px;border-radius:25px;margin-bottom:15px;position:relative;overflow:hidden;background:linear-gradient(180deg,#00000008,#00000018),url("fundo.jpg") center/cover no-repeat,linear-gradient(135deg,#63c6ed,#8bcf70);box-shadow:0 5px 15px #315f4820}
-.scene-label{position:absolute;bottom:13px;right:13px;color:white;font-weight:bold;font-size:13px;text-shadow:1px 2px 5px #245b36;background:#245b3670;padding:8px 12px;border-radius:20px}
-.status{text-align:center;font-size:12px;color:#54746c;margin:8px 0;min-height:16px}
-.retry-button{display:none;margin:0 auto 13px;border:0;border-radius:20px;background:#e3f3f8;color:#176b91;padding:9px 16px;font-size:12px;font-weight:bold}
-.retry-button.show{display:block}
-h2{font-size:18px;margin:0 0 7px;color:#245b49}
-.section-intro{font-size:12px;color:#71857b;line-height:1.4;margin:0 0 14px}
-.today-date{font-size:12px;font-weight:bold;color:#71857b;letter-spacing:1px;margin-bottom:12px}
-.periods{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-.period{border-radius:16px;padding:12px 10px;background:#e0f3e4;min-width:0}
-.period.medium{background:#fff0c9}
-.period.bad{background:#f9dfdc}
-.period-time{font-size:17px;font-weight:900;color:#245b49}
-.period-advice{font-size:14px;font-weight:900;margin:8px 0 5px;color:#258344}
-.period.medium .period-advice{color:#95600c}
-.period.bad .period-advice{color:#a73e36}
-.period-sky{font-size:12px;color:#526e62;margin-bottom:7px}
-.period-details{font-size:11px;line-height:1.6;color:#526e62}
-.period-reason{font-size:10px;line-height:1.4;margin-top:7px;color:#71857b}
-.day-card{background:#f8fbf8;border-radius:15px;padding:12px;margin-top:12px}
-.day-heading{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
-.day-name{font-size:13px;font-weight:900;color:#245b49}
-.day-weather{font-size:11px;color:#71857b}
-.day-periods{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
-.mini-period{border-radius:11px;padding:9px 7px;background:#e0f3e4;min-width:0}
-.mini-period.medium{background:#fff0c9}
-.mini-period.bad{background:#f9dfdc}
-.mini-time{font-size:12px;font-weight:900;color:#245b49}
-.mini-advice{font-size:10px;font-weight:900;margin:5px 0}
-.mini-details{font-size:10px;color:#526e62;line-height:1.4}
-.main-button{width:100%;border:0;border-radius:17px;padding:16px;background:#ffb934;color:#49320b;font-size:15px;font-weight:900;box-shadow:0 4px 0 #df9823;margin-top:3px;cursor:pointer}
-.main-button:disabled{opacity:.6}
-.note{font-size:10px;text-align:center;color:#788c81;margin-top:16px;line-height:1.5}
-@media(max-width:350px){
- .periods{grid-template-columns:1fr}
+
+body{
+  margin:0;
+  padding:16px 12px 30px;
+  font-family:Arial,sans-serif;
+  color:#24443b;
+  background:
+    radial-gradient(circle at 10% 5%,#fff3cf,transparent 30%),
+    radial-gradient(circle at 95% 25%,#c9efff,transparent 35%),
+    linear-gradient(145deg,#e8f8ee,#e7f5ff);
+}
+
+.app{max-width:650px;margin:auto}
+header{text-align:center;padding:10px 5px 16px}
+
+.logo{
+  font-size:38px;
+  font-weight:900;
+  letter-spacing:-1.5px;
+  color:#267b65;
+}
+.logo span{color:#e69a2e}
+.tagline{margin-top:5px;font-size:13px;color:#668078;font-weight:bold}
+
+.location{
+  display:flex;justify-content:center;align-items:center;
+  gap:9px;margin:8px auto 16px;flex-wrap:wrap;
+}
+#locationName{font-weight:bold;font-size:15px}
+
+.small-button{
+  border:0;border-radius:20px;padding:7px 12px;
+  background:#d7eee5;color:#286b55;font-weight:bold;cursor:pointer;
+}
+
+.scene{
+  overflow:hidden;border-radius:25px;min-height:145px;
+  margin-bottom:15px;padding:22px;display:flex;align-items:flex-end;
+  background:
+    linear-gradient(180deg,rgba(25,95,115,.05),rgba(15,65,55,.38)),
+    url("fundo.jpg") center/cover,
+    linear-gradient(135deg,#82cbe8,#c7e9bb 65%,#f6d88d);
+  box-shadow:0 8px 22px #315d5020;
+}
+.scene-text{color:white;font-weight:900;font-size:22px;text-shadow:0 2px 5px #234b46}
+
+.panel{
+  background:#ffffffdc;border:1px solid white;border-radius:23px;
+  padding:17px;margin-bottom:17px;box-shadow:0 7px 22px #315d5012;
+}
+.section-title{font-size:17px;font-weight:900;margin:0 0 13px;letter-spacing:.3px}
+.status-main{text-align:center;padding:8px 5px 15px}
+.status-word{font-size:27px;font-weight:1000}
+.status-main p{margin:5px 0 0;color:#62776e;font-size:13px}
+
+.periods{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.period{
+  border-radius:19px;padding:12px 9px;min-height:160px;text-align:center;
+  background:linear-gradient(145deg,#fff,#f0f8f5);
+  border:1px solid #e5eee9;box-shadow:0 3px 9px #294b3c0b;
+}
+.period.good{background:linear-gradient(145deg,#e3f8e9,#c9efd8)}
+.period.medium{background:linear-gradient(145deg,#fff5d9,#ffebba)}
+.period.bad{background:linear-gradient(145deg,#ffe8e4,#ffd6d1)}
+.period-time{font-size:16px;font-weight:900}
+.mascot{width:65px;height:58px;margin:5px auto 2px;display:block}
+.period-status{font-size:12px;font-weight:1000;margin:3px 0 7px}
+.good .period-status{color:#23804b}
+.medium .period-status{color:#a56b0c}
+.bad .period-status{color:#c34d42}
+.weather-details{display:flex;justify-content:center;flex-wrap:wrap;gap:7px;font-size:11px;color:#526b61}
+.weather-details span{white-space:nowrap}
+.period-note{font-size:11px;color:#60766c;margin-top:7px;line-height:1.3}
+
+.day-card{
+  background:#ffffffd9;border-radius:21px;padding:15px;
+  margin-bottom:13px;box-shadow:0 5px 17px #315d5010;
+}
+.day-heading{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:11px}
+.day-name{font-size:16px;font-weight:900;text-transform:capitalize}
+.day-summary{font-size:11px;color:#668078;font-weight:bold}
+.mini-periods{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.mini-period{display:flex;align-items:center;gap:8px;padding:9px;border-radius:13px;background:#f0f7f3;min-width:0}
+.mini-period.good{background:#e0f5e6}
+.mini-period.medium{background:#fff1d0}
+.mini-period.bad{background:#ffe5e1}
+.mini-mascot{width:36px;height:34px;flex-shrink:0}
+.mini-time{font-size:12px;font-weight:900}
+.mini-status{font-size:10px;font-weight:900;margin-top:3px}
+
+.loading,.error{text-align:center;padding:20px 10px;font-weight:bold;color:#557269}
+.error{color:#b44d43}
+.retry{border:0;border-radius:22px;padding:10px 17px;background:#267b65;color:white;font-weight:bold;cursor:pointer;margin-top:10px}
+
+.location-form{
+  display:none;margin:0 auto 15px;padding:13px;border-radius:17px;
+  background:white;box-shadow:0 5px 15px #315d5015;
+}
+.location-form.open{display:block}
+.location-form input{width:100%;padding:12px;border:1px solid #cbded4;border-radius:12px;font-size:15px}
+.location-form button{margin-top:9px;width:100%;padding:11px;border:0;border-radius:12px;background:#287d62;color:white;font-weight:bold}
+.location-help{font-size:11px;color:#72847d;margin-top:8px}
+footer{text-align:center;color:#71847c;font-size:11px;line-height:1.5;padding:5px 12px}
+
+@media(max-width:360px){
+  .periods,.mini-periods{gap:7px}
+  .period{padding:10px 6px}
+  .weather-details{font-size:10px}
 }
 </style>
 </head>
 
 <body>
+<div class="app">
+
 <header>
-<h1>☀️ Seca ou Não?</h1>
-<p>O tempo certo para estender a roupa!</p>
+  <div class="logo">SECA <span>OU NÃO?</span></div>
+  <div class="tagline">A meteorologia decide. Tu estendes.</div>
 </header>
 
-<main>
+<div class="location">
+  <span>📍</span>
+  <span id="locationName">A localizar...</span>
+  <button class="small-button" id="locationButton">ALTERAR</button>
+</div>
 
-<div class="location-box">
- <div class="location-line">
-  <span class="pin">📍</span>
-  <span class="location-name" id="locationName">A detetar localização...</span>
-  <button class="small-button" onclick="toggleLocation()">ALTERAR</button>
- </div>
- <div class="location-form" id="locationForm">
-  <input id="placeInput" type="text" placeholder="Ex.: Massamá, Sintra">
-  <button onclick="searchPlace()">OK</button>
- </div>
- <p class="location-help" id="locationHelp">Previsão para um estendal exterior exposto à chuva.</p>
+<div class="location-form" id="locationForm">
+  <input id="placeInput" type="text" placeholder="Escreve uma localidade...">
+  <button id="searchPlace">PROCURAR LOCALIDADE</button>
+  <button id="useLocation" type="button">USAR A MINHA LOCALIZAÇÃO</button>
+  <div class="location-help" id="locationHelp">Podes escrever uma cidade ou localidade.</div>
 </div>
 
 <div class="scene">
- <div class="scene-label">☀️ O tempo certo para secar!</div>
+  <div class="scene-text">Hoje, será dia de estender? ☀️</div>
 </div>
 
-<div class="status" id="status">A preparar a previsão...</div>
-<button class="retry-button" id="retryButton" onclick="retryForecast()">↻ TENTAR NOVAMENTE</button>
+<div class="panel">
+  <div class="section-title">HOJE</div>
+  <div id="status" class="loading">A consultar a meteorologia...</div>
+  <div id="todayPeriods" class="periods"></div>
+</div>
 
-<section class="card">
- <div class="today-date">ANÁLISE DE HOJE</div>
- <h2>🧺 Quando estender a roupa?</h2>
- <p class="section-intro">Dividimos o dia em períodos de 4 horas. Cada período tem uma recomendação própria.</p>
- <div class="periods" id="todayPeriods">
-  <div class="period">A consultar...</div>
- </div>
-</section>
+<div class="section-title" style="margin:20px 4px 12px">OS PRÓXIMOS 3 DIAS</div>
+<div id="days">
+  <div class="loading">A preparar a previsão...</div>
+</div>
 
-<section class="card">
- <h2>📅 PRÓXIMOS 3 DIAS</h2>
- <p class="section-intro">As melhores oportunidades, período a período.</p>
- <div id="days">
-  <div class="day-card">A consultar...</div>
- </div>
-</section>
+<footer>
+  As recomendações têm em conta a chuva, o sol, o vento, a temperatura e a humidade.
+  A previsão pode mudar. Vai acompanhando as condições.
+</footer>
 
-<button class="main-button" id="locationButton" onclick="askLocation()">📍 Usar a minha localização</button>
-
-<p class="note">
-As recomendações consideram a chuva, luminosidade, vento, temperatura e humidade. São estimativas: o tipo de roupa e a forma como está estendida também influenciam a secagem.
-</p>
-
-</main>
+</div>
 
 <script>
-const $=id=>document.getElementById(id);
+const $ = id => document.getElementById(id);
 
-let currentLat=null;
-let currentLon=null;
+let currentLocation = {latitude:null,longitude:null,name:""};
 
-const BLOCKS=[
- {start:8,end:12},
- {start:12,end:16},
- {start:16,end:20},
- {start:20,end:24}
+const periods = [
+  {start:8,end:12,label:"08h – 12h"},
+  {start:12,end:16,label:"12h – 16h"},
+  {start:16,end:20,label:"16h – 20h"},
+  {start:20,end:24,label:"20h – 24h"}
 ];
 
-function average(values){
- return values.length?values.reduce((a,b)=>a+b,0)/values.length:0;
-}
+function mascot(kind,small=false){
+  let face="";
 
-function windLabel(speed){
- if(speed<5)return"Fraco";
- if(speed<15)return"Moderado";
- if(speed<30)return"Forte";
- return"Muito forte";
-}
-
-function skyLabel(cloud,sun){
- if(sun<20)return"Pouca luminosidade";
- if(cloud<25)return"Pouco nublado";
- if(cloud<60)return"Parcialmente nublado";
- return"Muito nublado";
-}
-
-function evaluateBlock(hours,start){
- if(!hours.length){
-  return{
-   kind:"bad",
-   label:"NÃO VALE A PENA",
-   reason:"Sem horas úteis disponíveis neste período.",
-   sky:"—",
-   wind:0,
-   temp:0,
-   humidity:0
-  };
- }
-
- const rainMax=Math.max(...hours.map(h=>h.rain));
- const rainAmount=Math.max(...hours.map(h=>h.amount));
- const wind=average(hours.map(h=>h.wind));
- const temp=average(hours.map(h=>h.temp));
- const humidity=average(hours.map(h=>h.humidity));
- const cloud=average(hours.map(h=>h.cloud));
- const sun=average(hours.map(h=>h.sun));
-
- let score=0;
- let reason="";
-
- if(rainAmount>=0.1){
-  reason="Há precipitação prevista.";
-  return{kind:"bad",label:"NÃO VALE A PENA",reason,sky:skyLabel(cloud,sun),wind,temp,humidity};
- }
-
- if(rainMax>=50){
-  reason="Risco elevado de chuva.";
-  return{kind:"bad",label:"NÃO VALE A PENA",reason,sky:skyLabel(cloud,sun),wind,temp,humidity};
- }
-
- if(rainMax>=25){
-  reason="Existe algum risco de chuva.";
-  return{kind:"medium",label:"ARRISCA!",reason,sky:skyLabel(cloud,sun),wind,temp,humidity};
- }
-
- if(start>=20){
-  reason="Pouca luz solar para secar roupa.";
-  return{kind:"bad",label:"NÃO VALE A PENA",reason,sky:skyLabel(cloud,sun),wind,temp,humidity};
- }
-
- if(sun>=250)score+=2;
- else if(sun>=100)score+=1;
-
- if(cloud<=35)score+=2;
- else if(cloud<=65)score+=1;
-
- if(wind>=8&&wind<=25)score+=2;
- else if(wind>=5&&wind<=32)score+=1;
- else if(wind>35)score-=1;
-
- if(humidity<=65)score+=1;
- else if(humidity>85)score-=1;
-
- if(temp>=18)score+=1;
- else if(temp<12)score-=1;
-
- if(score>=5){
-  reason="Boa luminosidade e condições favoráveis.";
-  return{kind:"good",label:"APROVEITA!",reason,sky:skyLabel(cloud,sun),wind,temp,humidity};
- }
-
- reason="A secagem pode ser mais lenta.";
- return{kind:"medium",label:"ARRISCA!",reason,sky:skyLabel(cloud,sun),wind,temp,humidity};
-}
-
-function makeBlocks(hours,date,isToday){
- const now=new Date();
- const currentHour=now.getHours();
-
- return BLOCKS.map(block=>{
-  let selected=hours.filter(h=>h.hour>=block.start&&h.hour<block.end);
-
-  if(isToday){
-   selected=selected.filter(h=>h.hour>currentHour);
+  if(kind==="good"){
+    face=`
+      <circle cx="37" cy="34" r="3" fill="#36564a"/>
+      <circle cx="53" cy="34" r="3" fill="#36564a"/>
+      <path d="M36 44 Q45 55 55 44" fill="none" stroke="#36564a" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="29" cy="42" r="4" fill="#f5a2a0" opacity=".8"/>
+      <circle cx="61" cy="42" r="4" fill="#f5a2a0" opacity=".8"/>
+      <path d="M68 8 L71 15 L79 17 L71 20 L68 28 L65 20 L58 17 L65 15Z" fill="#ffca49"/>
+    `;
+  }else if(kind==="medium"){
+    face=`
+      <circle cx="37" cy="35" r="3" fill="#36564a"/>
+      <circle cx="53" cy="35" r="3" fill="#36564a"/>
+      <path d="M37 48 Q45 43 53 48" fill="none" stroke="#36564a" stroke-width="3" stroke-linecap="round"/>
+      <path d="M60 25 L66 21" stroke="#36564a" stroke-width="2.5" stroke-linecap="round"/>
+    `;
+  }else{
+    face=`
+      <path d="M32 30 L40 34 M48 34 L57 29" stroke="#36564a" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="38" cy="39" r="2.5" fill="#36564a"/>
+      <circle cx="52" cy="39" r="2.5" fill="#36564a"/>
+      <path d="M36 52 Q45 40 55 52" fill="none" stroke="#36564a" stroke-width="3" stroke-linecap="round"/>
+      <path d="M31 64 L27 73 M48 65 L45 75 M63 64 L60 73" stroke="#55a8dc" stroke-width="3" stroke-linecap="round"/>
+    `;
   }
 
-  const result=evaluateBlock(selected,block.start);
+  return `
+  <svg class="${small?'mini-mascot':'mascot'}" viewBox="0 0 90 80" xmlns="http://www.w3.org/2000/svg">
+    <ellipse cx="46" cy="66" rx="26" ry="5" fill="#6c9882" opacity=".15"/>
+    <path d="M20 57 C9 57 7 48 12 40 C15 34 22 32 28 34 C29 19 42 13 53 19 C60 22 63 28 63 34 C75 31 84 39 82 49 C81 55 76 58 68 58Z" fill="white" stroke="#d7e9df" stroke-width="2"/>
+    ${face}
+  </svg>`;
+}
 
-  return{
-   ...block,
-   ...result,
-   count:selected.length
+function evaluateBlock(hours){
+  if(!hours.length) return {
+    kind:"bad",label:"NÃO VALE A PENA",
+    note:"Sem horas suficientes para avaliar."
   };
- });
+
+  const rainProbability=Math.max(...hours.map(h=>Number(h.precipitation_probability||0)));
+  const rainAmount=hours.reduce((sum,h)=>sum+Number(h.precipitation||0),0);
+
+  if(rainAmount>=0.1 || rainProbability>=50){
+    return {kind:"bad",label:"NÃO VALE A PENA",note:"Há risco de chuva neste período."};
+  }
+
+  if(rainProbability>=25){
+    return {kind:"medium",label:"ARRISCA!",note:"Pode haver alguma instabilidade."};
+  }
+
+  const avg=key=>hours.reduce((sum,h)=>sum+Number(h[key]||0),0)/hours.length;
+  const solar=avg("shortwave_radiation");
+  const clouds=avg("cloud_cover");
+  const wind=avg("wind_speed_10m");
+  const humidity=avg("relative_humidity_2m");
+  const temperature=avg("temperature_2m");
+
+  let score=0;
+  if(solar>=250) score+=3;
+  else if(solar>=100) score+=2;
+  else if(solar>=35) score+=1;
+
+  if(clouds<35) score+=2;
+  else if(clouds<65) score+=1;
+
+  if(wind>=8 && wind<=25) score+=2;
+  else if(wind>=4) score+=1;
+
+  if(humidity<60) score+=2;
+  else if(humidity<75) score+=1;
+
+  if(temperature>=18) score+=1;
+
+  if(score>=6){
+    return {kind:"good",label:"APROVEITA!",note:"Boas condições para secar roupa."};
+  }
+
+  return {kind:"medium",label:"ARRISCA!",note:"A secagem pode demorar mais."};
 }
 
-function periodDetails(block){
- if(!block.count)return"Sem horas futuras";
- return "🌡️ "+Math.round(block.temp)+"°C<br>"+
- "💨 Vento "+Math.round(block.wind)+" km/h ("+windLabel(block.wind)+")<br>"+
- "💧 Humidade "+Math.round(block.humidity)+"%";
+function makeBlocks(hourly,dayIndex){
+  const result=[];
+  const now=new Date();
+  const today=now.toISOString().slice(0,10);
+  const currentHour=now.getHours();
+
+  periods.forEach(period=>{
+    const hours=[];
+
+    hourly.time.forEach((time,index)=>{
+      const dateText=time.slice(0,10);
+      const hour=Number(time.slice(11,13));
+
+      if(dateText===hourly.days[dayIndex] && hour>=period.start && hour<period.end){
+        if(dayIndex!==0 || dateText!==today || hour>=currentHour){
+          hours.push({
+            time,
+            temperature_2m:hourly.temperature_2m[index],
+            relative_humidity_2m:hourly.relative_humidity_2m[index],
+            precipitation_probability:hourly.precipitation_probability[index],
+            precipitation:hourly.precipitation[index],
+            wind_speed_10m:hourly.wind_speed_10m[index],
+            shortwave_radiation:hourly.shortwave_radiation[index],
+            cloud_cover:hourly.cloud_cover[index]
+          });
+        }
+      }
+    });
+
+    result.push({...period,hours,evaluation:evaluateBlock(hours)});
+  });
+
+  return result;
 }
 
-function renderToday(blocks){
- $("todayPeriods").innerHTML=blocks.map(block=>{
-  return `<div class="period ${block.kind}">
-   <div class="period-time">${String(block.start).padStart(2,"0")}h–${String(block.end).padStart(2,"0")}h</div>
-   <div class="period-advice">${block.label}</div>
-   <div class="period-sky">${block.sky}</div>
-   <div class="period-details">${periodDetails(block)}</div>
-   <div class="period-reason">${block.reason}</div>
-  </div>`;
- }).join("");
+function periodHTML(block){
+  const e=block.evaluation;
+  const hours=block.hours;
+  const average=key=>{
+    if(!hours.length) return null;
+    return Math.round(hours.reduce((s,h)=>s+Number(h[key]||0),0)/hours.length);
+  };
+
+  const temp=average("temperature_2m");
+  const wind=average("wind_speed_10m");
+  const humidity=average("relative_humidity_2m");
+  const rain=hours.length?Math.max(...hours.map(h=>Number(h.precipitation_probability||0))):null;
+
+  return `
+    <div class="period ${e.kind}">
+      <div class="period-time">${block.label}</div>
+      ${mascot(e.kind)}
+      <div class="period-status">${e.label}</div>
+      <div class="weather-details">
+        ${temp===null?"":`<span>🌡️ ${temp}°</span>`}
+        ${wind===null?"":`<span>💨 ${wind} km/h</span>`}
+        ${humidity===null?"":`<span>💧 ${humidity}%</span>`}
+        ${rain===null?"":`<span>🌧️ ${rain}%</span>`}
+      </div>
+      <div class="period-note">${e.note}</div>
+    </div>`;
 }
 
-function dateLabel(date){
- const d=new Date(date+"T12:00:00");
- const today=new Date();
- const diff=Math.round(
-  (new Date(d.getFullYear(),d.getMonth(),d.getDate())-
-  new Date(today.getFullYear(),today.getMonth(),today.getDate()))/86400000
- );
-
- if(diff===1)return"AMANHÃ";
- return d.toLocaleDateString("pt-PT",{weekday:"long"}).toUpperCase();
-}
-
-function renderDays(grouped,dates){
- $("days").innerHTML=dates.slice(1,4).map(date=>{
-  const blocks=makeBlocks(grouped[date],date,false);
-
-  const dayPeriods=blocks.map(block=>{
-   return `<div class="mini-period ${block.kind}">
-    <div class="mini-time">${String(block.start).padStart(2,"0")}h–${String(block.end).padStart(2,"0")}h</div>
-    <div class="mini-advice">${block.label}</div>
-    <div class="mini-details">
-     ${block.sky}<br>
-     💨 ${Math.round(block.wind)} km/h<br>
-     🌡️ ${Math.round(block.temp)}°C · 💧 ${Math.round(block.humidity)}%
-    </div>
-   </div>`;
-  }).join("");
-
-  return `<div class="day-card">
-   <div class="day-heading">
-    <div class="day-name">${dateLabel(date)}</div>
-    <div class="day-weather">${blocks.filter(b=>b.kind==="good").length} períodos favoráveis</div>
-   </div>
-   <div class="day-periods">${dayPeriods}</div>
-  </div>`;
- }).join("");
+function miniPeriodHTML(block){
+  const e=block.evaluation;
+  return `
+    <div class="mini-period ${e.kind}">
+      ${mascot(e.kind,true)}
+      <div>
+        <div class="mini-time">${block.label}</div>
+        <div class="mini-status">${e.label}</div>
+      </div>
+    </div>`;
 }
 
 function render(data){
- if(!data.hourly||!data.hourly.time){
-  throw new Error("A resposta meteorológica veio incompleta.");
- }
+  const blocks=makeBlocks(data,0);
+  const goodCount=blocks.filter(b=>b.evaluation.kind==="good").length;
 
- const grouped={};
+  let mainLabel="NÃO VALE A PENA";
+  let mainKind="bad";
+  let mainNote="Hoje não parece ser um bom dia para estender.";
 
- data.hourly.time.forEach((time,i)=>{
-  const date=time.slice(0,10);
+  if(goodCount>=2){
+    mainLabel="APROVEITA!";
+    mainKind="good";
+    mainNote="Hoje há períodos favoráveis para secar roupa.";
+  }else if(goodCount===1 || blocks.some(b=>b.evaluation.kind==="medium")){
+    mainLabel="ARRISCA!";
+    mainKind="medium";
+    mainNote="Hoje existem algumas oportunidades, mas atenção às condições.";
+  }
 
-  if(!grouped[date])grouped[date]=[];
+  $("status").className="status-main";
+  $("status").innerHTML=`
+    <div class="status-word" style="color:${
+      mainKind==="good"?"#23804b":mainKind==="medium"?"#a56b0c":"#c34d42"
+    }">${mainLabel}</div>
+    <p>${mainNote}</p>
+  `;
 
-  grouped[date].push({
-   hour:Number(time.slice(11,13)),
-   temp:data.hourly.temperature_2m[i]??15,
-   humidity:data.hourly.relative_humidity_2m[i]??60,
-   rain:data.hourly.precipitation_probability[i]??0,
-   amount:data.hourly.precipitation[i]??0,
-   wind:data.hourly.wind_speed_10m[i]??8,
-   sun:data.hourly.shortwave_radiation[i]??0,
-   cloud:data.hourly.cloud_cover[i]??60
-  });
- });
+  $("todayPeriods").innerHTML=blocks.map(periodHTML).join("");
 
- const dates=Object.keys(grouped);
+  const daysHTML=[];
+  for(let day=1;day<=3;day++){
+    const date=data.days[day];
+    const dayBlocks=makeBlocks(data,day);
+    const favorable=dayBlocks.filter(b=>b.evaluation.kind==="good").length;
 
- if(!dates.length)throw new Error("Sem dados de previsão.");
+    const dateLabel=new Date(date+"T12:00:00").toLocaleDateString("pt-PT",{
+      weekday:"long",day:"numeric",month:"long"
+    });
 
- const todayBlocks=makeBlocks(grouped[dates[0]],dates[0],true);
+    let summary="Poucas oportunidades";
+    if(favorable>=2) summary="Boas oportunidades";
+    else if(favorable===1) summary="Alguma oportunidade";
 
- renderToday(todayBlocks);
- renderDays(grouped,dates);
-
- $("status").textContent="Previsão meteorológica atualizada.";
- $("retryButton").classList.remove("show");
+    daysHTML.push(`
+      <div class="day-card">
+        <div class="day-heading">
+          <div class="day-name">${dateLabel}</div>
+          <div class="day-summary">${summary}</div>
+        </div>
+        <div class="mini-periods">${dayBlocks.map(miniPeriodHTML).join("")}</div>
+      </div>
+    `);
+  }
+  $("days").innerHTML=daysHTML.join("");
 }
 
 async function fetchJson(url){
- const controller=new AbortController();
- const timeout=setTimeout(()=>controller.abort(),12000);
+  const controller=new AbortController();
+  const timeout=setTimeout(()=>controller.abort(),12000);
+  try{
+    const response=await fetch(url,{signal:controller.signal});
+    if(!response.ok) throw new Error("Erro na ligação.");
+    return await response.json();
+  }finally{
+    clearTimeout(timeout);
+  }
+}
 
- try{
-  const response=await fetch(url,{
-   signal:controller.signal,
-   cache:"no-store"
-  });
+async function getForecast(){
+  $("status").className="loading";
+  $("status").textContent="A consultar a meteorologia...";
+  $("todayPeriods").innerHTML="";
+  $("days").innerHTML='<div class="loading">A preparar a previsão...</div>';
 
-  if(!response.ok){
-   throw new Error("Erro no serviço meteorológico ("+response.status+").");
+  try{
+    const lat=currentLocation.latitude;
+    const lon=currentLocation.longitude;
+    const url="https://api.open-meteo.com/v1/forecast"+
+      `?latitude=${lat}&longitude=${lon}`+
+      "&hourly=temperature_2m,relative_humidity_2m"+
+      ",precipitation_probability,precipitation"+
+      ",wind_speed_10m,shortwave_radiation,cloud_cover"+
+      "&forecast_days=4&timezone=auto";
+
+    const response=await fetchJson(url);
+    const hourly={
+      time:response.hourly.time,
+      temperature_2m:response.hourly.temperature_2m,
+      relative_humidity_2m:response.hourly.relative_humidity_2m,
+      precipitation_probability:response.hourly.precipitation_probability,
+      precipitation:response.hourly.precipitation,
+      wind_speed_10m:response.hourly.wind_speed_10m,
+      shortwave_radiation:response.hourly.shortwave_radiation,
+      cloud_cover:response.hourly.cloud_cover,
+      days:[...new Set(response.hourly.time.map(t=>t.slice(0,10)))]
+    };
+    render(hourly);
+  }catch(error){
+    $("status").className="error";
+    $("status").innerHTML=`
+      Não foi possível consultar a meteorologia.
+      <br><button class="retry" id="retryButton">TENTAR NOVAMENTE</button>
+    `;
+    $("retryButton").addEventListener("click",getForecast);
+    $("todayPeriods").innerHTML="";
+    $("days").innerHTML="";
+  }
+}
+
+async function reverseGeocode(lat,lon){
+  try{
+    const url="https://nominatim.openstreetmap.org/reverse"+
+      `?format=jsonv2&lat=${lat}&lon=${lon}`;
+    const data=await fetchJson(url);
+    const address=data.address||{};
+    const place=address.city||address.town||address.village||
+      address.municipality||address.suburb||"Localização atual";
+    const country=address.country||"Portugal";
+    return `${place}, ${country}`;
+  }catch(error){
+    return "Localização atual";
+  }
+}
+
+async function useCoordinates(){
+  if(!navigator.geolocation){
+    $("locationHelp").textContent="O teu dispositivo não permite obter a localização.";
+    return;
   }
 
-  return await response.json();
-
- }catch(error){
-  if(error.name==="AbortError"){
-   throw new Error("A ligação demorou demasiado tempo a responder.");
-  }
-  throw error;
- }finally{
-  clearTimeout(timeout);
- }
-}
-
-async function getForecast(lat,lon){
- $("status").textContent="A consultar a meteorologia...";
- $("retryButton").classList.remove("show");
-
- const url="https://api.open-meteo.com/v1/forecast"+
- "?latitude="+lat+"&longitude="+lon+
- "&hourly=temperature_2m,relative_humidity_2m,precipitation_probability,precipitation,wind_speed_10m,shortwave_radiation,cloud_cover"+
- "&forecast_days=4&timezone=auto";
-
- const data=await fetchJson(url);
- render(data);
-}
-
-async function reverseName(lat,lon){
- try{
-  const url="https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat="+lat+"&lon="+lon+"&zoom=14&accept-language=pt";
-  const data=await fetchJson(url);
-  const a=data.address||{};
-  return a.suburb||a.town||a.city_district||a.city||a.village||"A tua localização";
- }catch(e){
-  return"A tua localização";
- }
-}
-
-async function useCoordinates(lat,lon,name){
- currentLat=lat;
- currentLon=lon;
-
- $("locationName").textContent=name;
- $("locationHelp").textContent="Previsão para "+name+".";
- $("locationForm").classList.remove("show");
-
- try{
-  await getForecast(lat,lon);
- }catch(e){
-  console.error(e);
-  $("status").textContent=e.message||"Não foi possível obter a previsão.";
-  $("retryButton").classList.add("show");
- }
-}
-
-function askLocation(){
- if(!navigator.geolocation){
-  $("status").textContent="Este navegador não permite obter a localização.";
-  $("locationForm").classList.add("show");
-  return;
- }
-
- $("status").textContent="A pedir autorização para a localização...";
- $("locationButton").disabled=true;
-
- navigator.geolocation.getCurrentPosition(async position=>{
-  const lat=position.coords.latitude;
-  const lon=position.coords.longitude;
-  const name=await reverseName(lat,lon);
-
-  await useCoordinates(lat,lon,name);
-  $("locationButton").disabled=false;
-
- },error=>{
-  $("status").textContent="Não foi possível obter a localização. Podes escolher a localidade.";
-  $("locationName").textContent="Localização por definir";
-  $("locationForm").classList.add("show");
-  $("locationButton").disabled=false;
-
- },{enableHighAccuracy:false,timeout:15000,maximumAge:300000});
-}
-
-function toggleLocation(){
- $("locationForm").classList.toggle("show");
- $("placeInput").focus();
+  $("locationHelp").textContent="A obter a localização...";
+  navigator.geolocation.getCurrentPosition(
+    async position=>{
+      currentLocation.latitude=position.coords.latitude;
+      currentLocation.longitude=position.coords.longitude;
+      currentLocation.name=await reverseGeocode(
+        currentLocation.latitude,currentLocation.longitude
+      );
+      $("locationName").textContent=currentLocation.name;
+      $("locationForm").classList.remove("open");
+      getForecast();
+    },
+    ()=>{
+      $("locationHelp").textContent="Não foi possível obter a localização. Escreve uma localidade.";
+    },
+    {enableHighAccuracy:false,timeout:12000,maximumAge:300000}
+  );
 }
 
 async function searchPlace(){
- const place=$("placeInput").value.trim();
-
- if(!place){
-  $("status").textContent="Escreve primeiro uma localidade.";
-  return;
- }
-
- $("status").textContent="A procurar "+place+"...";
-
- try{
-  const url="https://geocoding-api.open-meteo.com/v1/search?name="+encodeURIComponent(place)+"&count=1&language=pt&format=json";
-  const data=await fetchJson(url);
-
-  if(!data.results||!data.results.length){
-   throw new Error("Localidade não encontrada.");
+  const place=$("placeInput").value.trim();
+  if(!place){
+    $("locationHelp").textContent="Escreve primeiro uma localidade.";
+    return;
   }
 
-  const found=data.results[0];
-  const name=[found.name,found.admin1].filter(Boolean).join(", ");
+  $("locationHelp").textContent="A procurar localidade...";
+  try{
+    const url="https://geocoding-api.open-meteo.com/v1/search"+
+      `?name=${encodeURIComponent(place)}`+
+      "&count=1&language=pt&format=json";
+    const data=await fetchJson(url);
 
-  await useCoordinates(found.latitude,found.longitude,name);
+    if(!data.results||!data.results.length){
+      $("locationHelp").textContent="Não encontrei essa localidade. Tenta novamente.";
+      return;
+    }
 
- }catch(e){
-  $("status").textContent=e.message||"Não foi possível procurar essa localidade.";
- }
+    const result=data.results[0];
+    currentLocation.latitude=result.latitude;
+    currentLocation.longitude=result.longitude;
+    currentLocation.name=[result.name,result.country].filter(Boolean).join(", ");
+
+    $("locationName").textContent=currentLocation.name;
+    $("locationForm").classList.remove("open");
+    getForecast();
+  }catch(error){
+    $("locationHelp").textContent="Não foi possível procurar. Verifica a ligação à internet.";
+  }
 }
 
-async function retryForecast(){
- if(currentLat===null||currentLon===null){
-  askLocation();
-  return;
- }
-
- await useCoordinates(
-  currentLat,
-  currentLon,
-  $("locationName").textContent
- );
-}
-
-$("placeInput").addEventListener("keydown",e=>{
- if(e.key==="Enter")searchPlace();
+$("locationButton").addEventListener("click",()=>{
+  $("locationForm").classList.toggle("open");
+});
+$("searchPlace").addEventListener("click",searchPlace);
+$("useLocation").addEventListener("click",useCoordinates);
+$("placeInput").addEventListener("keydown",event=>{
+  if(event.key==="Enter") searchPlace();
 });
 
-askLocation();
+useCoordinates();
 </script>
 </body>
 </html>
