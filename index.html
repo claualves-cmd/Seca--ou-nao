@@ -232,3 +232,21 @@ if(!H){$('heroBox').innerHTML='<div class="msg">Não foi possível consultar a m
 function setLoc(l){loc=l;$('locName').textContent=l.name;store('seca-loc',JSON.stringify(l));$('modal').classList.remove('open');H=null;$('heroBox').innerHTML='<div class="msg">A consultar a meteorologia…</div>';forecast()}
 async function revGeo(lat,lon){try{const d=await fj(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}`);const a=d.address||{};return(a.city||a.town||a.village||a.suburb||'Localização atual')+(a.country?', '+a.country:'')}catch(e){return'Localização atual'}}
 function gps(){if(!navigator.geolocation){$('help').textContent='Este dispositivo não permite ob
+$('help').textContent='A obter a localização…';
+navigator.geolocation.getCurrentPosition(async p=>{const lat=p.coords.latitude,lon=p.coords.longitude;setLoc({lat,lon,name:await revGeo(lat,lon)})},()=>{$('help').textContent='Sem acesso à localização. Escreve uma localidade.'},{timeout:12000,maximumAge:300000})}
+async function search(){const q=$('place').value.trim();if(!q){$('help').textContent='Escreve primeiro uma localidade.';return}
+$('help').textContent='A procurar…';
+try{const d=await fj(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(q)}&count=1&language=pt&format=json`);if(!d.results?.length){$('help').textContent='Não encontrei essa localidade.';return}
+const r=d.results[0];setLoc({lat:r.latitude,lon:r.longitude,name:[r.name,r.country].filter(Boolean).join(', ')})}catch(e){$('help').textContent='Falhou a pesquisa. Verifica a ligação.'}}
+$('locBtn').onclick=()=>$('modal').classList.add('open');
+$('close').onclick=()=>$('modal').classList.remove('open');
+$('modal').addEventListener('click',e=>{if(e.target===$('modal'))$('modal').classList.remove('open')});
+$('search').onclick=search;$('gps').onclick=gps;$('place').addEventListener('keydown',e=>{if(e.key==='Enter')search()});
+
+let saved=null;try{saved=JSON.parse(store('seca-loc')||'null')}catch(e){}
+if(saved&&saved.lat!=null){loc=saved;$('locName').textContent=saved.name;forecast()}
+else{loc={lat:38.7223,lon:-9.1393,name:'Lisboa, Portugal'};$('locName').textContent=loc.name;$('help').textContent='A mostrar Lisboa. Procura a tua localidade ou usa a tua localização.';$('modal').classList.add('open');forecast()}
+setInterval(render,60000);setInterval(forecast,30*60000);
+</script>
+</body>
+</html>
