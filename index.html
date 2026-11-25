@@ -3,78 +3,71 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#5ec2e0">
+<meta name="theme-color" content="#2f7fd6">
 <title>Seca ou Não?</title>
 <style>
-:root{color-scheme:light;--ink:#12353d;--muted:#5b747b;--card:rgba(255,252,244,.92);--soft:#f3efe3;--line:#e5dfcc;--good:#1f9d62;--mid:#d9961a;--bad:#d9573f;--sky1:#6fd0ea;--sky2:#cdeee9;--sky3:#fff1c9;--shadow:0 12px 30px rgba(18,53,61,.16)}
-:root[data-theme="dark"]{color-scheme:dark;--ink:#eef7f4;--muted:#a9c2c0;--card:rgba(22,38,46,.92);--soft:#233843;--line:#35505b;--good:#4fd69a;--mid:#f2bb4a;--bad:#ff8c76;--sky1:#14303f;--sky2:#1d4350;--sky3:#2c4a4a;--shadow:0 12px 30px rgba(0,0,0,.35)}
-body[data-state="medium"]{--sky1:#9cc9dc;--sky2:#dfe9e3;--sky3:#f8e6b8}
-body[data-state="bad"]{--sky1:#8ea4b3;--sky2:#c5cfd4;--sky3:#e3e1da}
-:root[data-theme="dark"] body[data-state="medium"]{--sky1:#1c3544;--sky2:#2a4650;--sky3:#3a4c48}
-:root[data-theme="dark"] body[data-state="bad"]{--sky1:#18242e;--sky2:#243540;--sky3:#2d3a40}
+:root{--g:#7dffbd;--m:#ffe07a;--r:#ffa092;--a:#2f7fd6;--b:#5fb4ee;--c:#8fcbe6}
+body[data-sky="medium"]{--a:#4f7a9c;--b:#7fa3ba;--c:#a3b7bd}
+body[data-sky="bad"]{--a:#46566a;--b:#66798c;--c:#8895a1}
+body[data-sky="night"]{--a:#0e1a3a;--b:#24365e;--c:#3c4e78}
 *{box-sizing:border-box}
-html{scroll-padding-top:env(safe-area-inset-top,0px)}
-body{margin:0;min-height:100vh;padding:calc(16px + env(safe-area-inset-top,0px)) 14px calc(30px + env(safe-area-inset-bottom,0px));font-family:ui-rounded,"Nunito","Segoe UI",system-ui,sans-serif;color:var(--ink);background:linear-gradient(180deg,var(--sky1) 0%,var(--sky2) 55%,var(--sky3) 100%) fixed;transition:background .6s}
-.app{max-width:640px;margin:auto}
-header{display:flex;align-items:center;justify-content:center;gap:12px;margin:4px 0 14px}
-.logo-mark{width:68px;height:68px;flex:none;filter:drop-shadow(0 6px 10px rgba(18,53,61,.25))}
-.wordmark{font-size:clamp(30px,9vw,42px);font-weight:900;line-height:.95;letter-spacing:-1.5px;color:#fff;text-shadow:0 2px 0 rgba(18,53,61,.35)}
-.wordmark small{display:block;font-size:12px;font-weight:700;letter-spacing:.2px;margin-top:6px;text-shadow:0 1px 3px rgba(18,53,61,.5)}
-:root[data-theme="dark"] .wordmark{color:#eef7f4}
-.bar{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:14px;flex-wrap:wrap}
-.chip{border:0;border-radius:99px;padding:9px 14px;background:var(--card);color:var(--ink);font:inherit;font-size:13px;font-weight:800;cursor:pointer;box-shadow:var(--shadow);display:inline-flex;align-items:center;gap:6px}
-.chip:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
-.clock{font-size:13px;font-weight:800;color:var(--ink);background:var(--card);border-radius:99px;padding:9px 14px;box-shadow:var(--shadow)}
-.clock b{font-size:15px}
-.loc-form{display:none;background:var(--card);border-radius:20px;padding:14px;margin-bottom:14px;box-shadow:var(--shadow)}
-.loc-form.open{display:block}
-.loc-form input{width:100%;padding:12px;border:2px solid var(--line);border-radius:12px;font:inherit;background:var(--soft);color:var(--ink)}
-.loc-form button{margin-top:8px;width:100%;padding:12px;border:0;border-radius:12px;background:var(--good);color:#fff;font:inherit;font-weight:800;cursor:pointer}
-.loc-form button.alt{background:var(--soft);color:var(--ink)}
-.help{font-size:12px;color:var(--muted);margin-top:8px}
-.hero{position:relative;background:var(--card);border-radius:28px;padding:22px 18px 18px;margin-bottom:14px;box-shadow:var(--shadow);text-align:center;overflow:hidden}
-.hero::before{content:"";position:absolute;left:14px;right:14px;top:14px;height:12px;border-top:3px solid var(--line);border-radius:50%}
-.hero .mascot{width:92px;height:82px;margin:10px auto 0;display:block;transform-origin:50% 0;animation:sway 3.4s ease-in-out infinite}
+html,body{margin:0}
+body{min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;gap:10px;padding:calc(12px + env(safe-area-inset-top,0px)) 12px calc(12px + env(safe-area-inset-bottom,0px));font-family:-apple-system,"SF Pro Display","Segoe UI",system-ui,sans-serif;color:#fff;text-shadow:0 1px 6px rgba(0,0,0,.22);background:linear-gradient(180deg,var(--a),var(--b) 55%,var(--c)) fixed;transition:background .8s}
+.app{width:100%;max-width:520px;margin:0 auto;flex:1;display:flex;flex-direction:column;gap:10px}
+.glass{background:rgba(12,32,52,.26);-webkit-backdrop-filter:blur(18px) saturate(1.4);backdrop-filter:blur(18px) saturate(1.4);border:1px solid rgba(255,255,255,.2);border-radius:22px}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,input:focus-visible{outline:3px solid #fff;outline-offset:2px}
+header{display:flex;align-items:center;gap:10px}
+.logo{width:46px;height:46px;flex:none;filter:drop-shadow(0 4px 8px rgba(0,0,0,.25))}
+.brand{flex:1;min-width:0}
+.name{font-size:21px;font-weight:800;letter-spacing:-.6px;line-height:1}
+.loc{margin-top:3px;border:0;background:none;padding:0;font-size:13px;font-weight:600;opacity:.92;display:inline-flex;gap:4px;max-width:100%}
+.loc span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.clock{text-align:right;font-size:11px;font-weight:600;opacity:.9;line-height:1.2}
+.clock b{display:block;font-size:22px;font-weight:700;letter-spacing:-.5px}
+.hero{display:flex;align-items:center;gap:12px;padding:12px 14px}
+.hero .mascot{width:72px;height:64px;flex:none;animation:sway 3.4s ease-in-out infinite;transform-origin:50% 0}
 @keyframes sway{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(3deg)}}
 @media (prefers-reduced-motion:reduce){.hero .mascot{animation:none}}
-.verdict{font-size:clamp(30px,9vw,40px);font-weight:900;letter-spacing:-1px;margin-top:6px}
-.verdict.good{color:var(--good)}.verdict.medium{color:var(--mid)}.verdict.bad{color:var(--bad)}
-.hero p{margin:6px auto 0;max-width:42ch;color:var(--muted);font-size:14px;line-height:1.45}
-.tip{margin-top:12px;padding:10px 12px;border-radius:14px;background:var(--soft);font-size:13px;font-weight:700;line-height:1.4}
-.tip.warn{background:#ffe9c7;color:#6d4208}.tip.severe{background:#ffd9d3;color:#8a251b}
+.verdict{font-size:30px;font-weight:800;letter-spacing:-1px;line-height:1.05}
+.good{color:var(--g)}.medium{color:var(--m)}.bad{color:var(--r)}
+.hero p{margin:4px 0 0;font-size:13px;line-height:1.35;font-weight:500}
+.tip{padding:9px 13px;font-size:12.5px;font-weight:700;line-height:1.35;border-radius:16px;background:rgba(255,224,122,.22);border:1px solid rgba(255,224,122,.5)}
+.tip.severe{background:rgba(255,160,146,.25);border-color:rgba(255,160,146,.6)}
 .tip[hidden]{display:none}
-h2{font-size:15px;font-weight:900;margin:0 0 10px 4px;color:var(--ink);text-shadow:0 1px 0 rgba(255,255,255,.35)}
-:root[data-theme="dark"] h2{text-shadow:none}
-.blocks{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px}
-.block{background:var(--card);border-radius:22px;padding:12px 10px 12px;text-align:center;box-shadow:var(--shadow);border-bottom:5px solid var(--line)}
-.block.good{border-bottom-color:var(--good)}.block.medium{border-bottom-color:var(--mid)}.block.bad{border-bottom-color:var(--bad)}
-.block.now{outline:3px solid var(--ink);outline-offset:-3px}
-.block .t{font-size:17px;font-weight:900}
-.block .d{font-size:11px;color:var(--muted);font-weight:700;min-height:14px}
-.block .mascot{width:52px;height:46px;margin:2px auto}
-.lab{font-size:12px;font-weight:900}
-.lab.good{color:var(--good)}.lab.medium{color:var(--mid)}.lab.bad{color:var(--bad)}
-.stats{display:flex;justify-content:center;flex-wrap:wrap;gap:3px 9px;font-size:11px;color:var(--muted);font-weight:700;margin-top:6px}
-.days{display:grid;gap:10px}
-.day{background:var(--card);border-radius:22px;padding:12px 14px;box-shadow:var(--shadow);display:grid;grid-template-columns:1fr 1fr;gap:10px 12px}
-.day h3{grid-column:1/-1;margin:0;font-size:14px;font-weight:900;text-transform:capitalize}
-.slot{display:flex;align-items:center;gap:10px;background:var(--soft);border-radius:16px;padding:8px 10px;border-left:5px solid var(--line)}
-.slot.good{border-left-color:var(--good)}.slot.medium{border-left-color:var(--mid)}.slot.bad{border-left-color:var(--bad)}
-.slot .mascot{width:38px;height:34px;flex:none}
-.slot .n{font-size:11px;color:var(--muted);font-weight:800}
-.slot .stats{justify-content:flex-start;margin-top:2px}
-.msg{text-align:center;padding:24px 10px;font-weight:800;color:var(--muted)}
-.msg.err{color:var(--bad)}
-.msg button{margin-top:10px;border:0;border-radius:99px;padding:10px 18px;background:var(--good);color:#fff;font:inherit;font-weight:800;cursor:pointer}
-.theme{display:flex;justify-content:center;margin:16px 0 4px}
-footer{text-align:center;font-size:11px;line-height:1.5;color:var(--ink);opacity:.8;padding:6px 10px}
-@media (max-width:360px){.day{grid-template-columns:1fr}.stats{font-size:10px}}
+.sec{font-size:12px;font-weight:700;opacity:.85;margin:2px 4px -4px}
+.blocks{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.block{padding:9px 4px 9px;text-align:center;border-radius:20px}
+.block.now{background:rgba(255,255,255,.24);border-color:rgba(255,255,255,.55)}
+.block .t{font-size:13px;font-weight:800;letter-spacing:-.2px}
+.block .d{font-size:10px;font-weight:600;opacity:.8;height:12px}
+.block .mascot{width:42px;height:37px;margin:3px auto 1px;display:block}
+.block .lab{font-size:11px;font-weight:800}
+.block .st{font-size:11px;font-weight:600;margin-top:3px;line-height:1.35}
+.days{flex:1;display:flex;flex-direction:column;gap:8px}
+.day{flex:1;display:grid;grid-template-columns:58px 1fr 1fr;align-items:center;gap:8px;padding:8px 12px}
+.dn{font-size:13px;font-weight:800;line-height:1.2;text-transform:capitalize}
+.dn small{display:block;font-size:10.5px;font-weight:600;opacity:.8}
+.slot{border-left:3px solid currentColor;padding-left:8px;min-width:0}
+.slot .n{font-size:11px;font-weight:600;color:#fff;opacity:.85}
+.slot .lab{font-size:13px;font-weight:800;line-height:1.2}
+.slot .st{font-size:10.5px;font-weight:600;color:#fff;opacity:.92;margin-top:1px;line-height:1.35}
+.msg{padding:14px;font-weight:700;text-align:center;width:100%}
+.msg button{margin-top:8px;border:0;border-radius:99px;padding:9px 16px;background:#fff;color:#16445f;font-weight:800;text-shadow:none}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;align-items:flex-end;justify-content:center;padding:14px;padding-bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:5}
+.modal.open{display:flex}
+.sheet{width:100%;max-width:480px;padding:16px;background:rgba(18,34,52,.96);border-radius:24px}
+.sheet input{width:100%;padding:13px;border-radius:14px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;font:inherit;text-shadow:none}
+.sheet input::placeholder{color:rgba(255,255,255,.6)}
+.sheet .go{margin-top:8px;width:100%;padding:12px;border:0;border-radius:14px;background:#fff;color:#16445f;font-weight:800;text-shadow:none}
+.sheet .go.alt{background:rgba(255,255,255,.14);color:#fff}
+.help{font-size:12px;opacity:.85;margin-top:8px}
 </style>
 </head>
-<body data-state="medium">
+<body data-sky="good">
 <div class="app">
 <header>
-<svg class="logo-mark" viewBox="0 0 80 80" role="img" aria-label="Logo Seca ou Não?">
+<svg class="logo" viewBox="0 0 80 80" role="img" aria-label="Logo Seca ou Não?">
 <defs><linearGradient id="lg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4cc3e6"/><stop offset="1" stop-color="#b9ecdf"/></linearGradient></defs>
 <rect x="4" y="4" width="72" height="72" rx="22" fill="url(#lg)"/>
 <g stroke="#ffd35a" stroke-width="3" stroke-linecap="round"><path d="M56 10v5M68 22h-5M65 13l-3.5 3.5M47 13l3.5 3.5"/></g>
@@ -82,127 +75,110 @@ footer{text-align:center;font-size:11px;line-height:1.5;color:var(--ink);opacity
 <path d="M8 33 Q40 46 72 33" fill="none" stroke="#12353d" stroke-width="2.5" stroke-linecap="round"/>
 <path d="M17 38 L37 42 L35 64 L16 61Z" fill="#fff" stroke="#12353d" stroke-width="2.5" stroke-linejoin="round"/>
 <path d="M18 47 L36 50.5 M17.5 54 L35.5 57" stroke="#9fd8cc" stroke-width="2.5" stroke-linecap="round"/>
-<path d="M45 41 L51 38 L56 41 L62 38 L68 43 L63 48 L61 46 L61 63 L47 63 L47 46 L45 48 L40 43Z" fill="#ff7a59" stroke="#12353d" stroke-width="2.5" stroke-linejoin="round" transform="translate(0 0)"/>
+<path d="M45 41 L51 38 L56 41 L62 38 L68 43 L63 48 L61 46 L61 63 L47 63 L47 46 L45 48 L40 43Z" fill="#ff7a59" stroke="#12353d" stroke-width="2.5" stroke-linejoin="round"/>
 <circle cx="20" cy="39" r="2.6" fill="#12353d"/><circle cx="48" cy="41" r="2.4" fill="#12353d"/>
 </svg>
-<div class="wordmark">SECA<br>OU NÃO?<small>A meteorologia decide. Tu estendes.</small></div>
+<div class="brand"><div class="name">Seca ou Não?</div><button class="loc" id="locBtn" aria-label="Alterar localidade">📍 <span id="locName">A localizar…</span> ▾</button></div>
+<div class="clock"><b id="clock">--:--</b><span id="clockDay"></span></div>
 </header>
 
-<div class="bar">
-<button class="chip" id="locBtn" aria-expanded="false">📍 <span id="locName">A localizar…</span></button>
-<div class="clock"><b id="clock">--:--</b> <span id="clockDay"></span></div>
-</div>
+<section class="glass hero" id="heroBox" aria-live="polite"><div class="msg">A consultar a meteorologia…</div></section>
+<div class="tip" id="tip" hidden></div>
 
-<div class="loc-form" id="locForm">
-<input id="place" type="text" placeholder="Escreve uma localidade…" aria-label="Localidade">
-<button id="search">Procurar localidade</button>
-<button class="alt" id="gps">Usar a minha localização</button>
-<div class="help" id="help">Podes escrever uma cidade ou localidade.</div>
-</div>
-
-<section class="hero" aria-live="polite">
-<div id="hero"><div class="msg">A consultar a meteorologia…</div></div>
-</section>
-
-<h2>Hoje, hora a hora</h2>
+<div class="sec">Próximas 24 horas</div>
 <div class="blocks" id="blocks"></div>
 
-<h2>Próximos dias</h2>
+<div class="sec">Próximos dias</div>
 <div class="days" id="days"></div>
+</div>
 
-<div class="theme"><select class="chip" id="theme" aria-label="Aparência"><option value="auto">Aparência: automática</option><option value="light">Aparência: clara</option><option value="dark">Aparência: escura</option></select></div>
-<footer>Contam a chuva, o sol, o vento, as rajadas, a temperatura e o ar seco (défice de pressão de vapor). A previsão pode mudar.</footer>
+<div class="modal" id="modal">
+<div class="sheet">
+<input id="place" type="text" placeholder="Escreve uma localidade…" aria-label="Localidade">
+<button class="go" id="search">Procurar localidade</button>
+<button class="go alt" id="gps">Usar a minha localização</button>
+<button class="go alt" id="close">Fechar</button>
+<div class="help" id="help">Podes escrever uma cidade ou localidade.</div>
+</div>
 </div>
 
 <script>
 const $=id=>document.getElementById(id);
 const HOUR=3600000,DAY=86400000;
-let loc=null,H=null,offSec=0,timer=null;
+let loc=null,H=null,offSec=0,T=[];
 function store(k,v){try{if(v===undefined)return localStorage.getItem(k);localStorage.setItem(k,v)}catch(e){return null}}
-function pad(n){return String(n).padStart(2,'0')}
-function nowLoc(){return Date.now()+offSec*1000}
-
-/* tema */
-function applyTheme(v){const a=v==='auto'?(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'):v;document.documentElement.dataset.theme=a;document.querySelector('meta[name="theme-color"]').content=a==='dark'?'#14303f':'#5ec2e0'}
-const st=store('seca-theme')||'auto';$('theme').value=st;applyTheme(st);
-$('theme').addEventListener('change',e=>{store('seca-theme',e.target.value);applyTheme(e.target.value)});
-matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change',()=>{if($('theme').value==='auto')applyTheme('auto')});
-
-/* relógio na hora do local */
+const pad=n=>String(n).padStart(2,'0');
+const nowLoc=()=>Date.now()+offSec*1000;
 function tick(){const d=new Date(nowLoc());$('clock').textContent=pad(d.getUTCHours())+':'+pad(d.getUTCMinutes());$('clockDay').textContent=d.toLocaleDateString('pt-PT',{weekday:'short',day:'numeric',month:'short',timeZone:'UTC'})}
 setInterval(tick,15000);tick();
 
-/* mascote */
 function mascot(k){
-const faces={good:'<circle cx="36" cy="38" r="3" fill="#2b4a44"/><circle cx="54" cy="38" r="3" fill="#2b4a44"/><path d="M36 48 Q45 58 54 48" fill="none" stroke="#2b4a44" stroke-width="3" stroke-linecap="round"/>',
+const f={good:'<circle cx="36" cy="38" r="3" fill="#2b4a44"/><circle cx="54" cy="38" r="3" fill="#2b4a44"/><path d="M36 48 Q45 58 54 48" fill="none" stroke="#2b4a44" stroke-width="3" stroke-linecap="round"/>',
 medium:'<circle cx="36" cy="38" r="3" fill="#2b4a44"/><circle cx="54" cy="38" r="3" fill="#2b4a44"/><path d="M37 51 Q45 46 53 51" fill="none" stroke="#2b4a44" stroke-width="3" stroke-linecap="round"/>',
 bad:'<path d="M31 33 L40 38 M50 38 L59 33" stroke="#2b4a44" stroke-width="3" stroke-linecap="round"/><circle cx="38" cy="43" r="2.5" fill="#2b4a44"/><circle cx="52" cy="43" r="2.5" fill="#2b4a44"/><path d="M36 55 Q45 45 55 55" fill="none" stroke="#2b4a44" stroke-width="3" stroke-linecap="round"/>'};
-return `<svg class="mascot" viewBox="0 0 90 80" aria-hidden="true"><path d="M20 10 Q45 4 70 10 L75 66 Q45 74 15 66Z" fill="#fff" stroke="#cfe3da" stroke-width="3" stroke-linejoin="round"/><path d="M19 22 Q45 27 71 21 M16 58 Q45 64 74 57" fill="none" stroke="#a8d6c8" stroke-width="3"/>${faces[k]}</svg>`}
+return `<svg class="mascot" viewBox="0 0 90 80" aria-hidden="true"><path d="M20 10 Q45 4 70 10 L75 66 Q45 74 15 66Z" fill="#fff" stroke="#cfe3da" stroke-width="3" stroke-linejoin="round"/><path d="M19 22 Q45 27 71 21 M16 58 Q45 64 74 57" fill="none" stroke="#a8d6c8" stroke-width="3"/>${f[k]}</svg>`}
 
-/* dados por hora */
-let T=[];
-function hoursIn(s,e){const out=[];for(let i=0;i<T.length;i++){if(T[i]>=s&&T[i]<e)out.push({temp:H.temperature_2m[i],hum:H.relative_humidity_2m[i],pp:H.precipitation_probability[i]||0,mm:H.precipitation[i]||0,wind:H.wind_speed_10m[i]||0,gust:H.wind_gusts_10m[i]||0,sun:H.shortwave_radiation[i]||0,cloud:H.cloud_cover[i]||0,vpd:H.vapour_pressure_deficit[i]||0})}return out}
+function hoursIn(s,e){const o=[];for(let i=0;i<T.length;i++)if(T[i]>=s&&T[i]<e)o.push({temp:H.temperature_2m[i],hum:H.relative_humidity_2m[i],pp:H.precipitation_probability[i]||0,mm:H.precipitation[i]||0,wind:H.wind_speed_10m[i]||0,gust:H.wind_gusts_10m[i]||0,sun:H.shortwave_radiation[i]||0,cloud:H.cloud_cover[i]||0,vpd:H.vapour_pressure_deficit[i]||0});return o}
 const avg=(a,k)=>a.reduce((s,h)=>s+Number(h[k]||0),0)/Math.max(1,a.length);
 const max=(a,k)=>Math.max(...a.map(h=>Number(h[k]||0)));
 
-/* avaliação */
-function evaluate(hs,sh,night){
+function evaluate(hs){
 if(!hs.length)return{kind:'bad',label:'Sem dados',note:'Não há previsão para este período.',hs};
 const pp=max(hs,'pp'),mm=hs.reduce((s,h)=>s+h.mm,0),gust=max(hs,'gust'),wind=avg(hs,'wind'),vpd=avg(hs,'vpd'),temp=avg(hs,'temp'),sun=avg(hs,'sun'),cloud=avg(hs,'cloud');
 if(pp>=50||(mm>=0.2&&pp>=20))return{kind:'bad',label:'Não vale a pena',note:'Chuva prevista ou risco elevado de aguaceiros.',hs};
-if(night){if(vpd>=0.9&&wind>=3&&temp>=14&&pp<25)return{kind:'medium',label:'Arrisca!',note:'Pode secar, mas devagar e sem sol.',hs};return{kind:'bad',label:'Não vale a pena',note:'De noite o ar fica húmido e a roupa não seca.',hs}}
+if(sun<15){if(vpd>=0.9&&wind>=3&&temp>=14&&pp<25)return{kind:'medium',label:'Arrisca!',note:'Pode secar, mas devagar e sem sol.',hs};return{kind:'bad',label:'Não vale a pena',note:'Sem sol o ar fica húmido e a roupa não seca.',hs}}
 let s=0;s+=sun>=250?3:sun>=100?2:sun>=35?1:0;s+=wind>=5&&wind<=28?2:wind>=3?1:0;s+=vpd>=1.2?3:vpd>=0.7?2:vpd>=0.35?1:0;if(temp>=16)s++;if(cloud<50)s++;
-if(pp>=25){return{kind:'medium',label:'Arrisca!',note:'Alguma hipótese de chuva. Fica atento.',hs}}
+if(pp>=25)return{kind:'medium',label:'Arrisca!',note:'Alguma hipótese de chuva. Fica atento.',hs};
 if(gust>=45)return{kind:'medium',label:'Arrisca!',note:'Rajadas fortes: prende bem a roupa.',hs};
 if(s>=6)return{kind:'good',label:'Aproveita!',note:'Boas condições para secar.',hs};
 if(s>=3)return{kind:'medium',label:'Arrisca!',note:'Vai secar, mas com calma.',hs};
 return{kind:'bad',label:'Não vale a pena',note:'Ar húmido e pouco vento: a roupa não seca.',hs}}
 
-const stats=hs=>hs.length?`<span>🌡️ ${Math.round(avg(hs,'temp'))}°</span><span>💨 ${Math.round(avg(hs,'wind'))}</span><span>💧 ${Math.round(avg(hs,'hum'))}%</span><span>🌧️ ${Math.round(max(hs,'pp'))}%</span>`:'';
+const SHORT={good:'Aproveita',medium:'Arrisca',bad:'Não vale'};
 const hh=ms=>pad(new Date(ms).getUTCHours())+'h';
 
 function render(){
 if(!H)return;
 const n=nowLoc(),d=new Date(n);
 const dayStart=Date.UTC(d.getUTCFullYear(),d.getUTCMonth(),d.getUTCDate());
-const base=dayStart+Math.floor(d.getUTCHours()/4)*4*HOUR;
+const base=Math.floor(n/HOUR)*HOUR;
 const blocks=[];
-for(let i=0;i<4;i++){const s=base+i*4*HOUR,e=s+4*HOUR,sh=new Date(s).getUTCHours();
-const ev=evaluate(hoursIn(s,e),sh,sh>=20||sh<8);ev.s=s;ev.e=e;ev.day=s>=dayStart+DAY?'Amanhã':'Hoje';ev.cur=i===0;blocks.push(ev)}
+for(let i=0;i<4;i++){const s=base+i*6*HOUR,e=s+6*HOUR;const ev=evaluate(hoursIn(s,e));ev.s=s;ev.e=e;ev.i=i;ev.tag=i===0?'Agora':(s>=dayStart+DAY?'Amanhã':'Hoje');blocks.push(ev)}
 
-/* hero */
-const first=blocks[0];
-let kind=first.kind,verdict=first.label,note=first.cur?(kind==='good'?'Agora estão boas condições para secar roupa.':kind==='medium'?'Dá para tentar, mas acompanha o céu.':'Neste momento não é boa altura para estender.'):'';
+const nowEv=evaluate(hoursIn(base,base+3*HOUR));
+let kind=nowEv.kind,verdict=nowEv.label,note=kind==='good'?'Agora estão boas condições para secar roupa.':kind==='medium'?'Dá para tentar, mas acompanha o céu.':'Neste momento não é boa altura para estender.';
 const nextGood=blocks.slice(1).find(b=>b.kind==='good');
 if(kind==='bad'&&nextGood){kind='medium';verdict='Espera um pouco';note=`Melhor janela: ${hh(nextGood.s)} – ${hh(nextGood.e)}.`}
 let rainAt=null;for(let i=0;i<T.length;i++){if(T[i]>=n&&T[i]<n+14*HOUR&&(H.precipitation_probability[i]>=50||H.precipitation[i]>=0.2)){rainAt=T[i];break}}
 const gust=Math.max(...blocks.slice(0,2).flatMap(b=>b.hs.map(h=>h.gust)),0);
-let tip='',tc='tip';
-if(first.kind!=='bad'&&rainAt){tip=`🌧️ Chuva prevista por volta das ${hh(rainAt)}. Recolhe a roupa antes.`;tc='tip warn'}
-else if(gust>=45){tip=`⚠️ Rajadas muito fortes, até ${Math.round(gust)} km/h. Evita estender no exterior.`;tc='tip severe'}
-else if(gust>=35){tip=`💨 Vento forte, rajadas até ${Math.round(gust)} km/h. Prende bem a roupa.`;tc='tip warn'}
-document.body.dataset.state=kind;
-$('hero').innerHTML=`${mascot(kind)}<div class="verdict ${kind}">${verdict}</div><p>${note}</p>${tip?`<div class="${tc}">${tip}</div>`:''}`;
+let tip='',sev=false;
+if(nowEv.kind!=='bad'&&rainAt){tip=`🌧️ Chuva prevista por volta das ${hh(rainAt)}. Recolhe a roupa antes.`}
+else if(gust>=45){tip=`⚠️ Rajadas muito fortes, até ${Math.round(gust)} km/h. Evita estender no exterior.`;sev=true}
+else if(gust>=35){tip=`💨 Vento forte, rajadas até ${Math.round(gust)} km/h. Prende bem a roupa.`}
+const sunNow=hoursIn(base,base+HOUR)[0]?.sun??100;
+document.body.dataset.sky=sunNow<5?'night':kind;
+document.querySelector('meta[name="theme-color"]').content={good:'#2f7fd6',medium:'#4f7a9c',bad:'#46566a'}[kind];
+if(sunNow<5)document.querySelector('meta[name="theme-color"]').content='#0e1a3a';
+$('heroBox').innerHTML=`${mascot(kind)}<div><div class="verdict ${kind}">${verdict}</div><p>${note}</p></div>`;
+const t=$('tip');t.hidden=!tip;t.textContent=tip;t.className='tip'+(sev?' severe':'');
 
-$('blocks').innerHTML=blocks.map(b=>`<div class="block ${b.kind} ${b.cur?'now':''}"><div class="t">${hh(b.s)} – ${hh(b.e)}</div><div class="d">${b.cur?'Agora':b.day}</div>${mascot(b.kind)}<div class="lab ${b.kind}">${b.label}</div><div class="stats">${stats(b.hs)}</div></div>`).join('');
+$('blocks').innerHTML=blocks.map(b=>{const h=b.hs;return `<div class="glass block ${b.i===0?'now':''}"><div class="t">${pad(new Date(b.s).getUTCHours())}–${hh(b.e)}</div><div class="d">${b.tag}</div>${mascot(b.kind)}<div class="lab ${b.kind}">${SHORT[b.kind]}</div><div class="st">${h.length?`${Math.round(avg(h,'temp'))}°<br>🌧️ ${Math.round(max(h,'pp'))}%`:''}</div></div>`}).join('');
 
 let days='';
 for(let k=1;k<=3;k++){const ds=dayStart+k*DAY;
-const nm=new Date(ds).toLocaleDateString('pt-PT',{weekday:'long',day:'numeric',month:'short',timeZone:'UTC'});
-const slots=[['Manhã',8,13],['Tarde',13,19]].map(([nome,a,b])=>{const ev=evaluate(hoursIn(ds+a*HOUR,ds+b*HOUR),a,false);return `<div class="slot ${ev.kind}">${mascot(ev.kind)}<div><div class="n">${nome} · ${a}h–${b}h</div><div class="lab ${ev.kind}">${ev.label}</div><div class="stats">${stats(ev.hs)}</div></div></div>`}).join('');
-days+=`<div class="day"><h3>${k===1?'Amanhã · ':''}${nm}</h3>${slots}</div>`}
+const dt=new Date(ds);const wd=dt.toLocaleDateString('pt-PT',{weekday:'short',timeZone:'UTC'}).replace('.','');const dm=dt.toLocaleDateString('pt-PT',{day:'numeric',month:'short',timeZone:'UTC'}).replace('.','');
+const slots=[['Manhã',8,13],['Tarde',13,19]].map(([nm,a,b])=>{const ev=evaluate(hoursIn(ds+a*HOUR,ds+b*HOUR));const h=ev.hs;return `<div class="slot ${ev.kind}"><div class="n">${nm}</div><div class="lab ${ev.kind}">${SHORT[ev.kind]}</div><div class="st">${h.length?`${Math.round(avg(h,'temp'))}° · ${Math.round(avg(h,'wind'))} km/h · 🌧️ ${Math.round(max(h,'pp'))}%`:''}</div></div>`}).join('');
+days+=`<div class="glass day"><div class="dn">${k===1?'Amanhã':wd}<small>${dm}</small></div>${slots}</div>`}
 $('days').innerHTML=days;tick()}
 
-/* rede */
 async function fj(url){const c=new AbortController(),t=setTimeout(()=>c.abort(),12000);try{const r=await fetch(url,{signal:c.signal});if(!r.ok)throw Error('http');return await r.json()}finally{clearTimeout(t)}}
 async function forecast(){
 if(!loc)return;
-$('hero').innerHTML='<div class="msg">A consultar a meteorologia…</div>';
 try{const u=`https://api.open-meteo.com/v1/forecast?latitude=${loc.lat}&longitude=${loc.lon}&hourly=temperature_2m,relative_humidity_2m,precipitation_probability,precipitation,wind_speed_10m,wind_gusts_10m,shortwave_radiation,cloud_cover,vapour_pressure_deficit&forecast_days=5&timezone=auto`;
 const r=await fj(u);H=r.hourly;offSec=r.utc_offset_seconds||0;T=H.time.map(t=>Date.parse(t+':00Z'));render()}
-catch(e){$('hero').innerHTML='<div class="msg err">Não foi possível consultar a meteorologia.<br><button id="retry">Tentar novamente</button></div>';$('retry').onclick=forecast}}
-function setLoc(l){loc=l;$('locName').textContent=l.name;store('seca-loc',JSON.stringify(l));$('locForm').classList.remove('open');$('locBtn').setAttribute('aria-expanded','false');forecast()}
-async function revGeo(lat,lon){try{const d=await fj(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}`);const a=d.address||{};return(a.city||a.town||a.village||a.suburb||'Localização atual')+', '+(a.country||'')}catch(e){return'Localização atual'}}
+catch(e){if(!H){$('heroBox').innerHTML='<div class="msg">Não foi possível consultar a meteorologia.<br><button id="retry">Tentar novamente</button></div>';$('retry').onclick=forecast}}}
+function setLoc(l){loc=l;$('locName').textContent=l.name;store('seca-loc',JSON.stringify(l));$('modal').classList.remove('open');H=null;$('heroBox').innerHTML='<div class="msg">A consultar a meteorologia…</div>';forecast()}
+async function revGeo(lat,lon){try{const d=await fj(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}`);const a=d.address||{};return(a.city||a.town||a.village||a.suburb||'Localização atual')+(a.country?', '+a.country:'')}catch(e){return'Localização atual'}}
 function gps(){if(!navigator.geolocation){$('help').textContent='Este dispositivo não permite obter a localização.';return}
 $('help').textContent='A obter a localização…';
 navigator.geolocation.getCurrentPosition(async p=>{const lat=p.coords.latitude,lon=p.coords.longitude;setLoc({lat,lon,name:await revGeo(lat,lon)})},()=>{$('help').textContent='Sem acesso à localização. Escreve uma localidade.'},{timeout:12000,maximumAge:300000})}
@@ -210,14 +186,16 @@ async function search(){const q=$('place').value.trim();if(!q){$('help').textCon
 $('help').textContent='A procurar…';
 try{const d=await fj(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(q)}&count=1&language=pt&format=json`);if(!d.results?.length){$('help').textContent='Não encontrei essa localidade.';return}
 const r=d.results[0];setLoc({lat:r.latitude,lon:r.longitude,name:[r.name,r.country].filter(Boolean).join(', ')})}catch(e){$('help').textContent='Falhou a pesquisa. Verifica a ligação.'}}
-$('locBtn').onclick=()=>{const o=$('locForm').classList.toggle('open');$('locBtn').setAttribute('aria-expanded',o)};
+$('locBtn').onclick=()=>$('modal').classList.add('open');
+$('close').onclick=()=>$('modal').classList.remove('open');
+$('modal').addEventListener('click',e=>{if(e.target===$('modal'))$('modal').classList.remove('open')});
 $('search').onclick=search;$('gps').onclick=gps;$('place').addEventListener('keydown',e=>{if(e.key==='Enter')search()});
 
-/* arranque: usa a última localidade; só pede GPS se for a primeira vez */
 let saved=null;try{saved=JSON.parse(store('seca-loc')||'null')}catch(e){}
 if(saved&&saved.lat!=null){loc=saved;$('locName').textContent=saved.name;forecast()}
-else{loc={lat:38.7223,lon:-9.1393,name:'Lisboa, Portugal'};$('locName').textContent=loc.name;$('locForm').classList.add('open');$('locBtn').setAttribute('aria-expanded','true');$('help').textContent='A mostrar Lisboa. Procura a tua localidade ou usa a tua localização.';forecast()}
+else{loc={lat:38.7223,lon:-9.1393,name:'Lisboa, Portugal'};$('locName').textContent=loc.name;$('help').textContent='A mostrar Lisboa. Procura a tua localidade ou usa a tua localização.';$('modal').classList.add('open');forecast()}
 setInterval(render,60000);setInterval(forecast,30*60000);
 </script>
 </body>
-</html>
+  </html>
+  
