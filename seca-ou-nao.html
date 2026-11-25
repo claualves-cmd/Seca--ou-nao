@@ -1,0 +1,1252 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Seca ou não?</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-main: #0f172a;
+            --bg-card: #1e293b;
+            --bg-card-hover: #273549;
+            --bg-input: #0f172a;
+            --border-color: #334155;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --accent: #38bdf8;
+            --accent-hover: #0284c7;
+            
+            /* Status colors */
+            --status-green-bg: rgba(16, 185, 129, 0.14);
+            --status-green-border: rgba(16, 185, 129, 0.45);
+            --status-green-text: #34d399;
+            
+            --status-amber-bg: rgba(245, 158, 11, 0.14);
+            --status-amber-border: rgba(245, 158, 11, 0.45);
+            --status-amber-text: #fbbf24;
+            
+            --status-red-bg: rgba(239, 68, 68, 0.14);
+            --status-red-border: rgba(239, 68, 68, 0.45);
+            --status-red-text: #f87171;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-primary);
+            line-height: 1.5;
+            min-height: 100vh;
+            padding: 16px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 520px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            padding-bottom: 24px;
+        }
+
+        /* Header */
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 4px 0;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .brand-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #0284c7, #38bdf8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            box-shadow: 0 4px 12px rgba(56, 189, 248, 0.25);
+        }
+
+        h1 {
+            font-size: 1.25rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            color: var(--text-primary);
+        }
+
+        .live-clock-badge {
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 4px 10px;
+            border-radius: 999px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .live-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: #34d399;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(0.85); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        /* Search & Location Bar */
+        .location-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 12px;
+            position: relative;
+        }
+
+        .search-row {
+            display: flex;
+            gap: 8px;
+        }
+
+        .search-input-wrapper {
+            position: relative;
+            flex: 1;
+        }
+
+        .search-input {
+            width: 100%;
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 10px 14px;
+            border-radius: 12px;
+            font-size: 0.92rem;
+            font-family: inherit;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .search-input:focus {
+            border-color: var(--accent);
+        }
+
+        .btn-icon {
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+
+        .btn-icon:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .search-results {
+            position: absolute;
+            top: calc(100% - 4px);
+            left: 12px;
+            right: 12px;
+            background: #1e293b;
+            border: 1px solid #475569;
+            border-radius: 12px;
+            margin-top: 6px;
+            max-height: 220px;
+            overflow-y: auto;
+            z-index: 50;
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.5);
+            display: none;
+        }
+
+        .search-results.active {
+            display: block;
+        }
+
+        .search-result-item {
+            padding: 10px 14px;
+            cursor: pointer;
+            border-bottom: 1px solid rgba(51, 65, 85, 0.6);
+            font-size: 0.88rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .search-result-item:last-child {
+            border-bottom: none;
+        }
+
+        .search-result-item:hover {
+            background: var(--bg-card-hover);
+        }
+
+        .search-result-sub {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        .current-location-info {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 10px;
+            padding-top: 8px;
+            border-top: 1px solid rgba(51, 65, 85, 0.5);
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+        }
+
+        .loc-name {
+            font-weight: 600;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* Offset Time Selector (Washing Machine Simulator) */
+        .offset-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 12px 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .offset-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .offset-title {
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .offset-target-time {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--accent);
+            background: rgba(56, 189, 248, 0.12);
+            padding: 2px 8px;
+            border-radius: 6px;
+        }
+
+        .offset-pills {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 6px;
+        }
+
+        .offset-pill {
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 8px 4px;
+            border-radius: 10px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.18s;
+            font-family: inherit;
+        }
+
+        .offset-pill:hover {
+            border-color: #475569;
+            color: var(--text-primary);
+        }
+
+        .offset-pill.active {
+            background: rgba(56, 189, 248, 0.16);
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        /* Verdict Hero Card */
+        .verdict-card {
+            border-radius: 20px;
+            padding: 20px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-card);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .verdict-card.status-green {
+            background: linear-gradient(165deg, rgba(16, 185, 129, 0.18) 0%, var(--bg-card) 85%);
+            border-color: var(--status-green-border);
+        }
+
+        .verdict-card.status-amber {
+            background: linear-gradient(165deg, rgba(245, 158, 11, 0.18) 0%, var(--bg-card) 85%);
+            border-color: var(--status-amber-border);
+        }
+
+        .verdict-card.status-red {
+            background: linear-gradient(165deg, rgba(239, 68, 68, 0.18) 0%, var(--bg-card) 85%);
+            border-color: var(--status-red-border);
+        }
+
+        .verdict-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .verdict-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 4px 10px;
+            border-radius: 999px;
+            margin-bottom: 8px;
+        }
+
+        .status-green .verdict-badge {
+            background: var(--status-green-bg);
+            color: var(--status-green-text);
+            border: 1px solid var(--status-green-border);
+        }
+
+        .status-amber .verdict-badge {
+            background: var(--status-amber-bg);
+            color: var(--status-amber-text);
+            border: 1px solid var(--status-amber-border);
+        }
+
+        .status-red .verdict-badge {
+            background: var(--status-red-bg);
+            color: var(--status-red-text);
+            border: 1px solid var(--status-red-border);
+        }
+
+        .verdict-headline {
+            font-size: 1.45rem;
+            font-weight: 800;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+        }
+
+        .status-green .verdict-headline { color: var(--status-green-text); }
+        .status-amber .verdict-headline { color: var(--status-amber-text); }
+        .status-red .verdict-headline { color: var(--status-red-text); }
+
+        .prob-circle {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-width: 68px;
+            height: 68px;
+            border-radius: 16px;
+            background: rgba(15, 23, 42, 0.65);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 6px;
+            flex-shrink: 0;
+        }
+
+        .prob-value {
+            font-size: 1.2rem;
+            font-weight: 800;
+            line-height: 1.1;
+        }
+
+        .prob-label {
+            font-size: 0.65rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            font-weight: 600;
+            margin-top: 2px;
+        }
+
+        .verdict-message {
+            font-size: 0.95rem;
+            color: var(--text-primary);
+            line-height: 1.5;
+            margin-bottom: 14px;
+        }
+
+        .verdict-subnote {
+            background: rgba(15, 23, 42, 0.55);
+            border-radius: 12px;
+            padding: 10px 12px;
+            font-size: 0.83rem;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            border: 1px solid rgba(51, 65, 85, 0.6);
+        }
+
+        /* Metrics Grid */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .metric-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 12px 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .metric-icon {
+            font-size: 1.2rem;
+            margin-bottom: 4px;
+        }
+
+        .metric-val {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .metric-lbl {
+            font-size: 0.72rem;
+            color: var(--text-secondary);
+            margin-top: 2px;
+        }
+
+        /* Best Window Banner */
+        .window-banner {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 12px 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .window-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .window-icon {
+            font-size: 1.3rem;
+        }
+
+        .window-title {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+
+        .window-value {
+            font-size: 0.92rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        /* Hourly Timeline */
+        .section-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 14px;
+        }
+
+        .section-title {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .hourly-scroll {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 6px;
+            scrollbar-width: thin;
+            scrollbar-color: #475569 transparent;
+        }
+
+        .hourly-scroll::-webkit-scrollbar {
+            height: 5px;
+        }
+
+        .hourly-scroll::-webkit-scrollbar-thumb {
+            background: #475569;
+            border-radius: 4px;
+        }
+
+        .hour-item {
+            min-width: 68px;
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 10px 6px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            flex-shrink: 0;
+            position: relative;
+        }
+
+        .hour-item.is-selected {
+            border-color: var(--accent);
+            background: rgba(56, 189, 248, 0.1);
+        }
+
+        .hour-item.is-good {
+            border-bottom: 3px solid #10b981;
+        }
+
+        .hour-item.is-risk {
+            border-bottom: 3px solid #f59e0b;
+        }
+
+        .hour-item.is-bad {
+            border-bottom: 3px solid #ef4444;
+        }
+
+        .hour-time {
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .hour-weather-icon {
+            font-size: 1.25rem;
+        }
+
+        .hour-temp {
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+
+        .hour-hum {
+            font-size: 0.72rem;
+            color: #38bdf8;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 2px;
+        }
+
+        .hour-wind {
+            font-size: 0.68rem;
+            color: var(--text-secondary);
+        }
+
+        .hour-prob {
+            font-size: 0.68rem;
+            font-weight: 700;
+            padding: 1px 5px;
+            border-radius: 4px;
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        /* Footer Legend & Honest Orientation Note */
+        .footer-card {
+            background: rgba(30, 41, 59, 0.6);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .legend-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.76rem;
+        }
+
+        .legend-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 3px;
+            flex-shrink: 0;
+        }
+
+        .honest-note {
+            border-top: 1px solid rgba(51, 65, 85, 0.7);
+            padding-top: 10px;
+            font-size: 0.77rem;
+            line-height: 1.45;
+            color: #cbd5e1;
+            display: flex;
+            gap: 8px;
+            align-items: flex-start;
+        }
+
+        .loading-overlay {
+            text-align: center;
+            padding: 36px 16px;
+            color: var(--text-secondary);
+            font-size: 0.92rem;
+        }
+
+        .spinner {
+            width: 30px;
+            height: 30px;
+            border: 3px solid rgba(56, 189, 248, 0.2);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 12px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="brand">
+                <div class="brand-icon">👕</div>
+                <div>
+                    <h1>Seca ou não?</h1>
+                </div>
+            </div>
+            <div class="live-clock-badge" title="Relógio interno atualizado em tempo real">
+                <span class="live-dot"></span>
+                <span id="live-clock">--:--</span>
+            </div>
+        </header>
+
+        <!-- Location Search -->
+        <div class="location-card">
+            <div class="search-row">
+                <div class="search-input-wrapper">
+                    <input type="text" id="city-input" class="search-input" placeholder="Pesquisar localidade (ex: Queluz, Sintra, Porto)..." autocomplete="off">
+                </div>
+                <button id="btn-gps" class="btn-icon" title="Usar a minha localização atual">📍</button>
+            </div>
+            <div id="search-results" class="search-results"></div>
+            <div class="current-location-info">
+                <span class="loc-name" id="display-location">📍 Queluz, Lisboa</span>
+                <span id="sun-times">🌅 --:-- · 🌇 --:--</span>
+            </div>
+        </div>
+
+        <!-- Washing Machine Delay / Offset Simulator -->
+        <div class="offset-card">
+            <div class="offset-header">
+                <span class="offset-title">🧺 Quando vais estender a roupa?</span>
+                <span class="offset-target-time" id="target-time-label">Agora</span>
+            </div>
+            <div class="offset-pills">
+                <button class="offset-pill active" data-offset="0">Agora</button>
+                <button class="offset-pill" data-offset="45">+45m</button>
+                <button class="offset-pill" data-offset="60">+1h</button>
+                <button class="offset-pill" data-offset="120">+2h</button>
+            </div>
+        </div>
+
+        <div id="app-content">
+            <div class="loading-overlay">
+                <div class="spinner"></div>
+                A analisar meteorologia e ponto de orvalho...
+            </div>
+        </div>
+
+        <!-- Footer Legend & Honest Orientation Note -->
+        <footer class="footer-card">
+            <div class="legend-grid">
+                <div class="legend-item">
+                    <span class="legend-dot" style="background:#10b981;"></span>
+                    <span><strong>Verde:</strong> Seca bem e rápido</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-dot" style="background:#f59e0b;"></span>
+                    <span><strong>Amarelo:</strong> Arrisca / Secagem lenta</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-dot" style="background:#ef4444;"></span>
+                    <span><strong>Vermelho:</strong> Evita (chuva ou orvalho)</span>
+                </div>
+                <div class="legend-item">
+                    <span>💧 <strong>Humidade</strong> &nbsp;|&nbsp; 💨 <strong>Vento</strong></span>
+                </div>
+            </div>
+            <div class="honest-note">
+                <span>🧭</span>
+                <span><strong>Nota honesta:</strong> Os cálculos usam dados meteorológicos oficiais, mas a exposição real do teu estendal faz toda a diferença — um estendal virado a <strong>Sul/Poente</strong> com corrente de ar seca muito mais depressa do que uma varanda fechada ou virada a <strong>Norte</strong>.</span>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // State
+        let state = {
+            lat: 38.7569,
+            lon: -9.2545,
+            name: "Queluz, Lisboa",
+            offsetMinutes: 0,
+            weatherData: null
+        };
+
+        // Load saved location if available
+        try {
+            const saved = localStorage.getItem('seca_ou_nao_loc');
+            if (saved) {
+                const parsed = JSON.parse(saved);
+                if (parsed.lat && parsed.lon && parsed.name) {
+                    state.lat = parsed.lat;
+                    state.lon = parsed.lon;
+                    state.name = parsed.name;
+                }
+            }
+        } catch (e) {}
+
+        // Elements
+        const liveClockEl = document.getElementById('live-clock');
+        const cityInput = document.getElementById('city-input');
+        const searchResultsEl = document.getElementById('search-results');
+        const displayLocEl = document.getElementById('display-location');
+        const sunTimesEl = document.getElementById('sun-times');
+        const targetTimeLabelEl = document.getElementById('target-time-label');
+        const appContentEl = document.getElementById('app-content');
+        const offsetPills = document.querySelectorAll('.offset-pill');
+        const btnGps = document.getElementById('btn-gps');
+
+        // Live Clock & Auto-Recalculation on Hour Change
+        let lastHourChecked = new Date().getHours();
+        function updateLiveClock() {
+            const now = new Date();
+            const hh = String(now.getHours()).padStart(2, '0');
+            const mm = String(now.getMinutes()).padStart(2, '0');
+            liveClockEl.textContent = `${hh}:${mm}`;
+            updateTargetTimeLabel();
+
+            if (now.getHours() !== lastHourChecked) {
+                lastHourChecked = now.getHours();
+                if (state.weatherData) renderDashboard();
+            }
+        }
+        setInterval(updateLiveClock, 1000);
+        updateLiveClock();
+
+        function updateTargetTimeLabel() {
+            const target = new Date(Date.now() + state.offsetMinutes * 60000);
+            const hh = String(target.getHours()).padStart(2, '0');
+            const mm = String(target.getMinutes()).padStart(2, '0');
+            if (state.offsetMinutes === 0) {
+                targetTimeLabelEl.textContent = `Agora (${hh}:${mm})`;
+            } else {
+                targetTimeLabelEl.textContent = `Às ${hh}:${mm}`;
+            }
+        }
+
+        // Offset Pill Listeners
+        offsetPills.forEach(pill => {
+            pill.addEventListener('click', () => {
+                offsetPills.forEach(p => p.classList.remove('active'));
+                pill.classList.add('active');
+                state.offsetMinutes = parseInt(pill.dataset.offset, 10);
+                updateTargetTimeLabel();
+                if (state.weatherData) renderDashboard();
+            });
+        });
+
+        // Geolocation
+        btnGps.addEventListener('click', () => {
+            if (!navigator.geolocation) {
+                alert("O teu navegador não suporta geolocalização.");
+                return;
+            }
+            btnGps.textContent = "⏳";
+            navigator.geolocation.getCurrentPosition(
+                async (pos) => {
+                    state.lat = pos.coords.latitude;
+                    state.lon = pos.coords.longitude;
+                    state.name = "Localização Atual (GPS)";
+                    try {
+                        const revRes = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=&latitude=${state.lat}&longitude=${state.lon}`);
+                    } catch (e) {}
+                    saveLocation();
+                    btnGps.textContent = "📍";
+                    fetchWeather();
+                },
+                () => {
+                    btnGps.textContent = "📍";
+                    alert("Não foi possível obter a localização. Verifica as permissões.");
+                }
+            );
+        });
+
+        // City Search with Debounce
+        let searchTimeout;
+        cityInput.addEventListener('input', (e) => {
+            clearTimeout(searchTimeout);
+            const q = e.target.value.trim();
+            if (q.length < 2) {
+                searchResultsEl.classList.remove('active');
+                return;
+            }
+            searchTimeout = setTimeout(() => searchCities(q), 350);
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.location-card')) {
+                searchResultsEl.classList.remove('active');
+            }
+        });
+
+        async function searchCities(query) {
+            try {
+                const url = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(query)}&count=6&language=pt&format=json`;
+                const res = await fetch(url);
+                const data = await res.json();
+                if (!data.results || data.results.length === 0) {
+                    searchResultsEl.innerHTML = `<div class="search-result-item">Sem resultados encontrados</div>`;
+                    searchResultsEl.classList.add('active');
+                    return;
+                }
+                searchResultsEl.innerHTML = data.results.map(item => {
+                    const sub = [item.admin1, item.country].filter(Boolean).join(', ');
+                    return `
+                        <div class="search-result-item" data-lat="${item.latitude}" data-lon="${item.longitude}" data-name="${item.name}${item.admin1 ? ', ' + item.admin1 : ''}">
+                            <strong>${item.name}</strong>
+                            <span class="search-result-sub">${sub}</span>
+                        </div>
+                    `;
+                }).join('');
+                searchResultsEl.classList.add('active');
+
+                searchResultsEl.querySelectorAll('.search-result-item[data-lat]').forEach(el => {
+                    el.addEventListener('click', () => {
+                        state.lat = parseFloat(el.dataset.lat);
+                        state.lon = parseFloat(el.dataset.lon);
+                        state.name = el.dataset.name;
+                        cityInput.value = '';
+                        searchResultsEl.classList.remove('active');
+                        saveLocation();
+                        fetchWeather();
+                    });
+                });
+            } catch (err) {
+                console.error(err);
+            }
+        }
+
+        function saveLocation() {
+            try {
+                localStorage.setItem('seca_ou_nao_loc', JSON.stringify({
+                    lat: state.lat,
+                    lon: state.lon,
+                    name: state.name
+                }));
+            } catch (e) {}
+        }
+
+        // Weather Icons Mapper (WMO codes)
+        function getWeatherEmoji(code, isDay = 1) {
+            if (code === 0) return isDay ? '☀️' : '🌙';
+            if (code === 1 || code === 2) return isDay ? '⛅' : '☁️';
+            if (code === 3) return '☁️';
+            if (code === 45 || code === 48) return '🌫️';
+            if (code >= 51 && code <= 67) return '🌧️';
+            if (code >= 71 && code <= 77) return '❄️';
+            if (code >= 80 && code <= 82) return '🌦️';
+            if (code >= 95) return '⛈️';
+            return '🌤️';
+        }
+
+        // Core Drying Score Calculation for a Single Hour
+        function calculateHourlyDryingScore(temp, humidity, wind, precipProb, precip, isDay, uvIndex) {
+            // Immediate rain penalty
+            if (precip > 0.1 || precipProb >= 55) {
+                return { score: 5, status: 'bad', reason: 'Chuva prevista' };
+            }
+
+            // Vapor Pressure Deficit (VPD) approximation & Drying Physics
+            // Saturation vapor pressure (hPa)
+            const es = 6.112 * Math.exp((17.67 * temp) / (temp + 243.5));
+            const ea = es * (humidity / 100);
+            const vpd = Math.max(0, es - ea); // Higher VPD = air absorbs moisture faster
+
+            let score = 0;
+
+            // VPD contribution (0 to 50 pts)
+            score += Math.min(50, vpd * 4.8);
+
+            // Humidity penalty / bonus
+            if (humidity <= 55) score += 22;
+            else if (humidity <= 68) score += 14;
+            else if (humidity <= 78) score += 6;
+            else if (humidity >= 88) score -= 22;
+            else if (humidity >= 82) score -= 12;
+
+            // Wind airflow bonus (crucial especially at night or high humidity)
+            if (wind >= 8 && wind <= 32) score += 18;
+            else if (wind > 32) score += 12; // Good drying, though strong gusts
+            else if (wind >= 4) score += 9;
+            else score -= 4; // Stagnant air
+
+            // Solar radiation / Day vs Night factor (realistic: night does NOT auto-forbid!)
+            if (isDay === 1) {
+                score += 12 + Math.min(10, (uvIndex || 0) * 1.5);
+            } else {
+                // At night, drying relies on VPD + wind. Only penalize lightly if air is still dry/breezy
+                score -= 4;
+            }
+
+            // Moderate rain probability caution
+            if (precipProb >= 25) {
+                score -= (precipProb - 20) * 0.6;
+            }
+
+            score = Math.max(0, Math.min(100, Math.round(score)));
+
+            let status = 'bad';
+            if (score >= 62) status = 'good';
+            else if (score >= 38) status = 'risk';
+
+            return { score, status };
+        }
+
+        // Fetch Open-Meteo Data
+        async function fetchWeather() {
+            displayLocEl.textContent = `📍 ${state.name}`;
+            appContentEl.innerHTML = `
+                <div class="loading-overlay">
+                    <div class="spinner"></div>
+                    A carregar previsão horária para ${state.name}...
+                </div>
+            `;
+
+            try {
+                const url = `https://api.open-meteo.com/v1/forecast?latitude=${state.lat}&longitude=${state.lon}&hourly=temperature_2m,relative_humidity_2m,precipitation_probability,precipitation,weather_code,wind_speed_10m,wind_gusts_10m,is_day,uv_index&daily=sunrise,sunset&timezone=auto&forecast_days=2`;
+                const res = await fetch(url);
+                if (!res.ok) throw new Error("Erro na API meteorológica");
+                state.weatherData = await res.json();
+                renderDashboard();
+            } catch (err) {
+                appContentEl.innerHTML = `
+                    <div class="verdict-card status-red">
+                        <div class="verdict-headline">Erro de ligação</div>
+                        <p class="verdict-message" style="margin-top:8px;">Não foi possível obter os dados meteorológicos. Verifica a tua ligação à internet.</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Render Complete Dashboard
+        function renderDashboard() {
+            const data = state.weatherData;
+            if (!data) return;
+
+            // Update Sunrise / Sunset display
+            if (data.daily && data.daily.sunrise && data.daily.sunset) {
+                const sr = data.daily.sunrise[0].split('T')[1];
+                const ss = data.daily.sunset[0].split('T')[1];
+                sunTimesEl.textContent = `🌅 ${sr} · 🌇 ${ss}`;
+            }
+
+            // Target Timestamp based on offset
+            const targetDate = new Date(Date.now() + state.offsetMinutes * 60000);
+            const hourlyTimes = data.hourly.time;
+
+            // Find closest hourly index >= targetDate (or current hour)
+            let startIdx = 0;
+            for (let i = 0; i < hourlyTimes.length; i++) {
+                const itemTime = new Date(hourlyTimes[i]);
+                if (itemTime.getTime() >= targetDate.getTime() - 30 * 60000) {
+                    startIdx = i;
+                    break;
+                }
+            }
+
+            // Precompute hourly evaluations for next 24 hours from startIdx
+            const evaluatedHours = [];
+            for (let i = startIdx; i < Math.min(hourlyTimes.length, startIdx + 24); i++) {
+                const t = data.hourly.temperature_2m[i];
+                const h = data.hourly.relative_humidity_2m[i];
+                const w = data.hourly.wind_speed_10m[i];
+                const gusts = data.hourly.wind_gusts_10m[i];
+                const pp = data.hourly.precipitation_probability[i];
+                const pr = data.hourly.precipitation[i];
+                const code = data.hourly.weather_code[i];
+                const isDay = data.hourly.is_day[i];
+                const uv = data.hourly.uv_index[i];
+                const evalRes = calculateHourlyDryingScore(t, h, w, pp, pr, isDay, uv);
+
+                evaluatedHours.push({
+                    idx: i,
+                    timeStr: hourlyTimes[i].split('T')[1],
+                    dateObj: new Date(hourlyTimes[i]),
+                    temp: t,
+                    humidity: h,
+                    wind: w,
+                    gusts: gusts,
+                    precipProb: pp,
+                    precip: pr,
+                    code: code,
+                    isDay: isDay,
+                    score: evalRes.score,
+                    status: evalRes.status
+                });
+            }
+
+            if (evaluatedHours.length === 0) return;
+
+            const current = evaluatedHours[0];
+            // Analyze next 6-10 hours window (e.g., drying until morning or through afternoon)
+            const windowHours = evaluatedHours.slice(0, 8);
+            const avgScore = Math.round(windowHours.reduce((acc, item) => acc + item.score, 0) / windowHours.length);
+            const maxRainProb = Math.max(...windowHours.map(h => h.precipProb));
+            const totalRainMm = windowHours.reduce((acc, h) => acc + h.precip, 0);
+            const avgHumidity = Math.round(windowHours.reduce((acc, h) => acc + h.humidity, 0) / windowHours.length);
+            const maxGusts = Math.max(...windowHours.map(h => h.gusts));
+
+            // Check if drying improves significantly in the next 1-3 hours (e.g., 09:00 vs 11:00)
+            let goodFromHour = null;
+            for (let j = 0; j < Math.min(6, evaluatedHours.length); j++) {
+                if (evaluatedHours[j].status === 'good') {
+                    goodFromHour = evaluatedHours[j].timeStr;
+                    break;
+                }
+            }
+
+            // Realistic Verdict & Consistent Messaging Logic
+            let cardClass = 'status-amber';
+            let badgeText = '⚠️ Arrisca com atenção';
+            let headline = 'Secagem lenta / Moderada';
+            let mainMessage = '';
+            let subNote = '';
+            let probability = Math.max(10, Math.min(98, Math.round((current.score * 0.45) + (avgScore * 0.55))));
+
+            const isNightWindow = current.isDay === 0;
+
+            if (totalRainMm > 0.3 || maxRainProb >= 55) {
+                cardClass = 'status-red';
+                badgeText = '🌧️ Não estender';
+                headline = 'Evita estender agora';
+                probability = Math.min(25, probability);
+                mainMessage = `Há risco elevado de chuva (${maxRainProb}%) nas próximas horas. A roupa vai acabar por molhar ou ganhar cheiro a humidade.`;
+                subNote = 'Espera que a frente de chuva passe ou estende apenas em local totalmente coberto.';
+            } else if (avgScore >= 62 && current.score >= 52) {
+                cardClass = 'status-green';
+                badgeText = '✅ Ótimo para estender';
+                headline = isNightWindow ? 'Seca bem durante a noite' : 'Pode estender à vontade';
+                mainMessage = isNightWindow
+                    ? `Apesar de ser noite, o ar está seco (${current.humidity}%) com boa brisa (${Math.round(current.wind)} km/h). A roupa seca perfeitamente até de manhã.`
+                    : `Boas condições de evaporação (${current.temp}°C, ${current.humidity}% humidade). A roupa vai secar depressa e sem cheiros.`;
+                subNote = maxGusts >= 40
+                    ? `Atenção às rajadas de vento até ${Math.round(maxGusts)} km/h — reforça as molas!`
+                    : 'Sem risco de chuva nas próximas 8 horas.';
+            } else if (avgScore >= 40 || (current.score >= 34 && maxRainProb < 35)) {
+                cardClass = 'status-amber';
+                badgeText = '🟡 Arrisca';
+                headline = isNightWindow ? 'Arrisca (seca até de manhã)' : 'Arrisca — seca, mas sem pressa';
+                if (isNightWindow) {
+                    mainMessage = `Devido à alta humidade noturna (${avgHumidity}%), a roupa pode não secar totalmente até de manhã, mas vai arejar e adiantar grande parte da secagem.`;
+                    subNote = goodFromHour
+                        ? `Fica excelente a partir das ${goodFromHour} com a subida da temperatura.`
+                        : 'Peças finas e sintéticas secam bem; toalhas ou gangas vão precisar de um toque de manhã.';
+                } else {
+                    mainMessage = goodFromHour && goodFromHour !== current.timeStr
+                        ? `Ainda há alguma humidade (${current.humidity}%), mas já dá para estender. Fica no ponto ideal a partir das ${goodFromHour}.`
+                        : `Humidade moderada (${current.humidity}%) e pouco vento. Dá para estender, mas peças grossas vão demorar mais horas.`;
+                    subNote = maxGusts >= 40
+                        ? `Rajadas previstas até ${Math.round(maxGusts)} km/h — usa molas extra.`
+                        : 'Sem chuva prevista. Espaça bem as peças no estendal para circular o ar.';
+                }
+            } else {
+                cardClass = 'status-red';
+                badgeText = '🛑 Evita agora';
+                headline = 'Humidade demasiado alta';
+                probability = Math.min(30, probability);
+                mainMessage = isNightWindow
+                    ? `Devido à alta humidade (${avgHumidity}%) e ar parado, a roupa não vai secar até de manhã e corre o risco de ganhar cheiro a mofo.`
+                    : `O ar está saturado (${current.humidity}% de humidade) e sem evaporação suficiente para secar a roupa.`;
+                subNote = goodFromHour
+                    ? `Bom a partir das ${goodFromHour} — vale a pena aguardar.`
+                    : 'Mantém a roupa dentro de casa por enquanto.';
+            }
+
+            // Find Best Window in the next 24h
+            let bestWindowText = 'Sem janela ideal nas próximas 24h';
+            let bestStreakStart = null;
+            let bestStreakEnd = null;
+            let currentStreak = [];
+            let longestStreak = [];
+
+            evaluatedHours.forEach(h => {
+                if (h.status === 'good') {
+                    currentStreak.push(h);
+                    if (currentStreak.length > longestStreak.length) {
+                        longestStreak = [...currentStreak];
+                    }
+                } else {
+                    currentStreak = [];
+                }
+            });
+
+            if (longestStreak.length > 0) {
+                bestStreakStart = longestStreak[0].timeStr;
+                bestStreakEnd = longestStreak[longestStreak.length - 1].timeStr;
+                bestWindowText = bestStreakStart === bestStreakEnd
+                    ? `Por volta das ${bestStreakStart}`
+                    : `Das ${bestStreakStart} às ${bestStreakEnd}`;
+            } else {
+                // Fallback to best 'risk' window
+                const bestSingle = [...evaluatedHours].sort((a, b) => b.score - a.score)[0];
+                if (bestSingle && bestSingle.score >= 35) {
+                    bestWindowText = `Melhor período: ${bestSingle.timeStr} (${bestSingle.score}%)`;
+                }
+            }
+
+            // Build Hourly HTML
+            const hourlyHtml = evaluatedHours.slice(0, 18).map((h, i) => {
+                const statusClass = h.status === 'good' ? 'is-good' : (h.status === 'risk' ? 'is-risk' : 'is-bad');
+                const selectedClass = i === 0 ? 'is-selected' : '';
+                return `
+                    <div class="hour-item ${statusClass} ${selectedClass}">
+                        <span class="hour-time">${h.timeStr}</span>
+                        <span class="hour-weather-icon">${getWeatherEmoji(h.code, h.isDay)}</span>
+                        <span class="hour-temp">${Math.round(h.temp)}°</span>
+                        <span class="hour-hum">💧${h.humidity}%</span>
+                        <span class="hour-wind">💨${Math.round(h.wind)}</span>
+                        <span class="hour-prob">${h.score}%</span>
+                    </div>
+                `;
+            }).join('');
+
+            appContentEl.innerHTML = `
+                <div class="verdict-card ${cardClass}">
+                    <div class="verdict-top">
+                        <div>
+                            <div class="verdict-badge">${badgeText}</div>
+                            <div class="verdict-headline">${headline}</div>
+                        </div>
+                        <div class="prob-circle" title="Índice de probabilidade de secagem">
+                            <span class="prob-value">${probability}%</span>
+                            <span class="prob-label">Secagem</span>
+                        </div>
+                    </div>
+                    <p class="verdict-message">${mainMessage}</p>
+                    <div class="verdict-subnote">
+                        <span>💡</span>
+                        <span>${subNote}</span>
+                    </div>
+                </div>
+
+                <div class="metrics-grid">
+                    <div class="metric-box">
+                        <span class="metric-icon">💧</span>
+                        <span class="metric-val">${current.humidity}%</span>
+                        <span class="metric-lbl">Humidade</span>
+                    </div>
+                    <div class="metric-box">
+                        <span class="metric-icon">💨</span>
+                        <span class="metric-val">${Math.round(current.wind)} <small style="font-size:0.7rem;font-weight:500;">km/h</small></span>
+                        <span class="metric-lbl">Vento (raj. ${Math.round(current.gusts)})</span>
+                    </div>
+                    <div class="metric-box">
+                        <span class="metric-icon">🌡️</span>
+                        <span class="metric-val">${Math.round(current.temp)}°C</span>
+                        <span class="metric-lbl">Chuva ${current.precipProb}%</span>
+                    </div>
+                </div>
+
+                <div class="window-banner">
+                    <div class="window-left">
+                        <span class="window-icon">⏱️</span>
+                        <div>
+                            <div class="window-title">Melhor janela nas próximas 24h</div>
+                            <div class="window-value">${bestWindowText}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-card">
+                    <div class="section-title">
+                        <span>Previsão Hora a Hora</span>
+                        <span style="font-size:0.7rem;font-weight:500;text-transform:none;">Desliza →</span>
+                    </div>
+                    <div class="hourly-scroll">
+                        ${hourlyHtml}
+                    </div>
+                </div>
+            `;
+        }
+
+        // Init
+        fetchWeather();
+    </script>
+</body>
+</html>
