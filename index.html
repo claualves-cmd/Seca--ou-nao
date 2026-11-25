@@ -21,15 +21,15 @@ body{min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;paddi
 .glass{background:rgba(12,32,52,.26);-webkit-backdrop-filter:blur(18px) saturate(1.4);backdrop-filter:blur(18px) saturate(1.4);border:1px solid rgba(255,255,255,.2);border-radius:22px}
 button{font:inherit;color:inherit;cursor:pointer}
 button:focus-visible,input:focus-visible{outline:3px solid #fff;outline-offset:2px}
-header{display:flex;align-items:flex-end;gap:10px;padding:0 2px}
-.brand{flex:1;min-width:0}
-.wm{display:flex;align-items:flex-end;font-family:"Fredoka",ui-rounded,"Nunito",system-ui,sans-serif;font-weight:600;font-size:36px;letter-spacing:-.5px;line-height:1;white-space:nowrap}
+header{display:flex;flex-direction:column;gap:8px;padding:0 2px}
+.row{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.wm{display:flex;align-items:flex-end;justify-content:center;font-family:"Fredoka",ui-rounded,"Nunito",system-ui,sans-serif;font-weight:600;font-size:36px;letter-spacing:-.5px;line-height:1;white-space:nowrap}
 .wm i{font-style:normal;color:#ffd35a}
 .wm svg{height:1.3em;width:.66em;flex:none;margin:0 0 -.05em .06em;filter:drop-shadow(0 2px 4px rgba(0,0,0,.2))}
-.loc{margin-top:6px;border:0;background:none;padding:0;font-size:13px;font-weight:600;opacity:.92;display:inline-flex;gap:4px;max-width:100%}
+.loc{margin:0;border:0;background:none;padding:0;font-size:13px;font-weight:700;display:inline-flex;gap:4px;max-width:58%}
 .loc span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.clock{text-align:right;font-size:11px;font-weight:600;opacity:.9;line-height:1.2}
-.clock b{display:block;font-size:22px;font-weight:700;letter-spacing:-.5px}
+.clock{text-align:right;font-size:12px;font-weight:600;white-space:nowrap}
+.clock b{font-size:18px;font-weight:700;letter-spacing:-.5px;margin-right:4px}
 .hero{display:flex;align-items:center;gap:12px;padding:12px 14px}
 .hero .mascot{width:72px;height:64px;flex:none;animation:sway 3.4s ease-in-out infinite;transform-origin:50% 0}
 @keyframes sway{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(3deg)}}
@@ -83,8 +83,9 @@ header{display:flex;align-items:flex-end;gap:10px;padding:0 2px}
 </svg>
 <div class="app">
 <header>
-<div class="brand"><div class="wm" role="img" aria-label="Seca ou não?"><span>Seca <i>ou não</i></span><svg aria-hidden="true"><use href="#qm"/></svg></div><button class="loc" id="locBtn" aria-label="Alterar localidade">📍 <span id="locName">A localizar…</span> ▾</button></div>
-<div class="clock"><b id="clock">--:--</b><span id="clockDay"></span></div>
+<div class="wm" role="img" aria-label="Seca ou não?"><span>Seca <i>ou não</i></span><svg aria-hidden="true"><use href="#qm"/></svg></div>
+<div class="row"><button class="loc" id="locBtn" aria-label="Alterar localidade">📍 <span id="locName">A localizar…</span> ▾</button>
+<div class="clock"><b id="clock">--:--</b><span id="clockDay"></span></div></div>
 </header>
 
 <section class="glass hero" id="heroBox" aria-live="polite"><div class="msg">A consultar a meteorologia…</div></section>
@@ -137,7 +138,7 @@ const pp=max(hs,'pp'),mm=hs.reduce((s,h)=>s+h.mm,0);
 if(pp>=50||mm>=0.2)return'—';
 const r=0.15+0.5*avg(hs,'vpd')+0.015*avg(hs,'wind')+0.0008*avg(hs,'sun');
 const t=4/r;
-return t>12?'12h+':'~'+Math.max(1,Math.round(t))+'h'}
+return t>12?'12h+':Math.max(1,Math.round(t))+'h'}
 
 function hoursIn(s,e){const o=[];for(let i=0;i<T.length;i++)if(T[i]>=s&&T[i]<e)o.push({temp:H.temperature_2m[i],hum:H.relative_humidity_2m[i],pp:H.precipitation_probability[i]||0,mm:H.precipitation[i]||0,wind:H.wind_speed_10m[i]||0,gust:H.wind_gusts_10m[i]||0,sun:H.shortwave_radiation[i]||0,cloud:H.cloud_cover[i]||0,vpd:H.vapour_pressure_deficit[i]||0});return o}
 const avg=(a,k)=>a.reduce((s,h)=>s+Number(h[k]||0),0)/Math.max(1,a.length);
@@ -183,7 +184,7 @@ document.querySelector('meta[name="theme-color"]').content=sunNow<5?'#0e1a3a':{g
 $('heroBox').innerHTML=`${mascot(kind)}<div><div class="verdict ${kind}">${verdict}</div><p>${note}</p></div>`;
 const t=$('tip');t.hidden=!tip;t.textContent=tip;t.className='tip'+(sev?' severe':'');
 
-$('blocks').innerHTML=blocks.map(b=>{const h=b.hs;return `<div class="glass block ${b.i===0?'now':''}"><div class="t">${pad(new Date(b.s).getUTCHours())}–${hh(b.e)}</div><div class="d">${b.tag}</div>${icon(h)}<div class="lab ${b.kind}">${SHORT[b.kind]}</div><div class="st">${h.length?`${Math.round(avg(h,'temp'))}° · 💨${Math.round(avg(h,'wind'))}<br>🌧️ ${Math.round(max(h,'pp'))}%<br><b>seca ${dry(h)}</b>`:''}</div></div>`}).join('');
+$('blocks').innerHTML=blocks.map(b=>{const h=b.hs;return `<div class="glass block ${b.i===0?'now':''}"><div class="t">${pad(new Date(b.s).getUTCHours())}–${hh(b.e)}</div><div class="d">${b.tag}</div>${icon(h)}<div class="lab ${b.kind}">${SHORT[b.kind]}</div><div class="st">${h.length?`${Math.round(avg(h,'temp'))}° · 💨${Math.round(avg(h,'wind'))}<br>🌧️ ${Math.round(max(h,'pp'))}%<br><b>seca em ${dry(h)}</b>`:''}</div></div>`}).join('');
 
 let days='';
 for(let k=1;k<=3;k++){const ds=dayStart+k*DAY;
