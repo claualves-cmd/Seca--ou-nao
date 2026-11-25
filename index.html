@@ -231,7 +231,7 @@ catch(e){if(!H){try{const o=JSON.parse(store('seca-last')||'null');if(o&&o.lat==
 if(!H){$('heroBox').innerHTML='<div class="msg">Não foi possível consultar a meteorologia.<br><button id="retry">Tentar novamente</button></div>';$('retry').onclick=forecast}}}
 function setLoc(l){loc=l;$('locName').textContent=l.name;store('seca-loc',JSON.stringify(l));$('modal').classList.remove('open');H=null;$('heroBox').innerHTML='<div class="msg">A consultar a meteorologia…</div>';forecast()}
 async function revGeo(lat,lon){try{const d=await fj(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}`);const a=d.address||{};return(a.city||a.town||a.village||a.suburb||'Localização atual')+(a.country?', '+a.country:'')}catch(e){return'Localização atual'}}
-function gps(){if(!navigator.geolocation){$('help').textContent='Este dispositivo não permite ob
+function gps(){function gps(){if(!navigator.geolocation){$('help').textContent='Este dispositivo não permite obter a localização.';return}
 $('help').textContent='A obter a localização…';
 navigator.geolocation.getCurrentPosition(async p=>{const lat=p.coords.latitude,lon=p.coords.longitude;setLoc({lat,lon,name:await revGeo(lat,lon)})},()=>{$('help').textContent='Sem acesso à localização. Escreve uma localidade.'},{timeout:12000,maximumAge:300000})}
 async function search(){const q=$('place').value.trim();if(!q){$('help').textContent='Escreve primeiro uma localidade.';return}
