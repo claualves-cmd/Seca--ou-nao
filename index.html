@@ -66,6 +66,7 @@ header{display:flex;flex-direction:column;gap:8px;padding:0 2px}
 .good{color:var(--g)}.medium{color:var(--m)}.bad{color:var(--r)}
 .hero p{margin:4px 0 0;font-size:13px;line-height:1.35;font-weight:500}
 .tip{padding:9px 13px;font-size:12.5px;font-weight:700;line-height:1.35;border-radius:16px;background:rgba(255,224,122,.22);border:1px solid rgba(255,224,122,.5)}
+.tip.ok{background:rgba(125,255,189,.22);border-color:rgba(125,255,189,.55)}
 .tip.severe{background:rgba(255,160,146,.25);border-color:rgba(255,160,146,.6)}
 .tip[hidden]{display:none}
 .sec{font-size:12px;font-weight:700;opacity:.85;margin:2px 4px -4px}
@@ -174,12 +175,14 @@ const max=(a,k)=>Math.max(...a.map(h=>Number(h[k]||0)));
 
 function evaluate(hs){
 if(!hs.length)return{kind:'bad',label:'Sem dados',note:'Não há previsão para este período.',hs};
-const pp=max(hs,'pp'),mm=hs.reduce((s,h)=>s+h.mm,0),gust=max(hs,'gust'),wind=avg(hs,'wind'),vpd=avg(hs,'vpd'),temp=avg(hs,'temp'),sun=avg(hs,'sun'),cloud=avg(hs,'cloud');
+const pp=max(hs,'pp'),mm=hs.reduce((s,h)=>s+h.mm,0),gust=max(hs,'gust'),wind=avg(hs,'wind'),vpd=avg(hs,'vpd'),temp=avg(hs,'temp'),sun=avg(hs,'sun'),cloud=avg(hs,'cloud'),hum=avg(hs,'hum');
 if(pp>=50||(mm>=0.2&&pp>=20))return{kind:'bad',label:'Evita',note:'Chuva prevista ou risco elevado de aguaceiros.',hs};
 if(sun<15){if(vpd>=0.9&&wind>=3&&temp>=14&&pp<25)return{kind:'medium',label:'Arrisca!',note:'Pode secar, mas devagar e sem sol.',hs};return{kind:'bad',label:'Evita',note:'Sem sol o ar fica húmido e a roupa não seca.',hs}}
+if((hum>=85&&wind<8)||(vpd<0.2&&wind<12))return{kind:'bad',label:'Evita',note:'Muita humidade e pouco vento: a roupa não seca.',hs};
 let s=0;s+=sun>=250?3:sun>=100?2:sun>=35?1:0;s+=wind>=5&&wind<=28?2:wind>=3?1:0;s+=vpd>=1.2?3:vpd>=0.7?2:vpd>=0.35?1:0;if(temp>=16)s++;if(cloud<50)s++;
 if(pp>=25)return{kind:'medium',label:'Arrisca!',note:'Alguma hipótese de chuva. Fica atento.',hs};
-if(gust>=45)return{kind:'medium',label:'Arrisca!',note:'Rajadas fortes: prende bem a roupa.',hs};
+if(gust>=55)return{kind:'medium',label:'Arrisca!',note:'Rajadas fortes: prende bem a roupa.',hs};
+if(s>=6&&hum>=75&&wind<6)return{kind:'medium',label:'Arrisca!',note:'Humidade alta e pouco vento: vai demorar.',hs};
 if(s>=6)return{kind:'good',label:'Aproveita!',note:'Boas condições para secar.',hs};
 if(s>=3)return{kind:'medium',label:'Arrisca!',note:'Vai secar, mas com calma.',hs};
 return{kind:'bad',label:'Evita',note:'Ar húmido e pouco vento: a roupa não seca.',hs}}
@@ -202,16 +205,17 @@ const nextGood=blocks.slice(1).find(b=>b.kind==='good');
 if(kind==='bad'&&nextGood){kind='medium';verdict='Espera um pouco';note=`Melhor janela: ${hh(nextGood.s)} – ${hh(nextGood.e)}.`}
 let rainAt=null;for(let i=0;i<T.length;i++){if(T[i]>=n&&T[i]<n+14*HOUR&&(H.precipitation_probability[i]>=50||H.precipitation[i]>=0.2)){rainAt=T[i];break}}
 const gust=Math.max(...blocks.slice(0,2).flatMap(b=>b.hs.map(h=>h.gust)),0);
-let tip='',sev=false;
+let tip='',sev=false,ok=false;
 if(nowEv.kind!=='bad'&&rainAt){tip=`🌧️ Chuva prevista por volta das ${hh(rainAt)}. Recolhe a roupa antes.`}
-else if(gust>=45){tip=`⚠️ Rajadas muito fortes, até ${Math.round(gust)} km/h. Evita estender no exterior.`;sev=true}
-else if(gust>=35){tip=`💨 Vento forte, rajadas até ${Math.round(gust)} km/h. Prende bem a roupa.`}
+else if(gust>=65){tip=`⚠️ Rajadas muito fortes, até ${Math.round(gust)} km/h. Evita estender no exterior.`;sev=true}
+else if(gust>=50){tip=`💨 Vento forte, rajadas até ${Math.round(gust)} km/h. Prende bem a roupa.`}
+else{const gn=Math.round(max(nowEv.hs,'gust'));if(nowEv.kind==='good'&&gn>=20){tip=`💨 Rajadas até ${gn} km/h. Ajudam a secar!`;ok=true}}
 if(staleTs){const q=new Date(staleTs);tip=`📡 Sem ligação. A mostrar a previsão guardada às ${pad(q.getHours())}:${pad(q.getMinutes())}.`;sev=false}
 const sunNow=hoursIn(base,base+HOUR)[0]?.sun??100;
 document.body.dataset.sky=sunNow<5?'night':kind;
 document.querySelector('meta[name="theme-color"]').content=sunNow<5?'#0e1a3a':{good:'#2f7fd6',medium:'#4f7a9c',bad:'#46566a'}[kind];
 $('heroBox').innerHTML=`${mascot(kind)}<div><div class="verdict ${kind}">${verdict}</div><p>${note}</p></div>`;
-const t=$('tip');t.hidden=!tip;t.textContent=tip;t.className='tip'+(sev?' severe':'');
+const t=$('tip');t.hidden=!tip;t.textContent=tip;t.className='tip'+(sev?' severe':ok?' ok':'');
 
 $('blocks').innerHTML=blocks.map(b=>{const h=b.hs;return `<div class="glass block ${b.i===0?'now':''}"><div class="t">${pad(new Date(b.s).getUTCHours())}–${hh(b.e)}</div><div class="d">${b.tag}</div>${icon(h)}<div class="lab ${b.kind}">${SHORT[b.kind]}</div><div class="st">${h.length?`${Math.round(avg(h,'temp'))}° · 💨${Math.round(avg(h,'wind'))}<br>🌧️ ${Math.round(max(h,'pp'))}%<br><b>seca em ${dry(h)}</b>`:''}</div></div>`}).join('');
 
@@ -229,24 +233,4 @@ try{const u=`https://api.open-meteo.com/v1/forecast?latitude=${loc.lat}&longitud
 const r=await fj(u);H=r.hourly;offSec=r.utc_offset_seconds||0;T=H.time.map(t=>Date.parse(t+':00Z'));staleTs=0;store('seca-last',JSON.stringify({H,offSec,ts:Date.now(),lat:loc.lat,lon:loc.lon}));render()}
 catch(e){if(!H){try{const o=JSON.parse(store('seca-last')||'null');if(o&&o.lat===loc.lat&&o.lon===loc.lon){H=o.H;offSec=o.offSec;T=H.time.map(t=>Date.parse(t+':00Z'));staleTs=o.ts;render();return}}catch(x){}}
 if(!H){$('heroBox').innerHTML='<div class="msg">Não foi possível consultar a meteorologia.<br><button id="retry">Tentar novamente</button></div>';$('retry').onclick=forecast}}}
-function setLoc(l){loc=l;$('locName').textContent=l.name;store('seca-loc',JSON.stringify(l));$('modal').classList.remove('open');H=null;$('heroBox').innerHTML='<div class="msg">A consultar a meteorologia…</div>';forecast()}
-async function revGeo(lat,lon){try{const d=await fj(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}`);const a=d.address||{};return(a.city||a.town||a.village||a.suburb||'Localização atual')+(a.country?', '+a.country:'')}catch(e){return'Localização atual'}}
-function gps(){if(!navigator.geolocation){$('help').textContent='Este dispositivo não permite obter a localização.';return}
-$('help').textContent='A obter a localização…';
-navigator.geolocation.getCurrentPosition(async p=>{const lat=p.coords.latitude,lon=p.coords.longitude;setLoc({lat,lon,name:await revGeo(lat,lon)})},()=>{$('help').textContent='Sem acesso à localização. Escreve uma localidade.'},{timeout:12000,maximumAge:300000})}
-async function search(){const q=$('place').value.trim();if(!q){$('help').textContent='Escreve primeiro uma localidade.';return}
-$('help').textContent='A procurar…';
-try{const d=await fj(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(q)}&count=1&language=pt&format=json`);if(!d.results?.length){$('help').textContent='Não encontrei essa localidade.';return}
-const r=d.results[0];setLoc({lat:r.latitude,lon:r.longitude,name:[r.name,r.country].filter(Boolean).join(', ')})}catch(e){$('help').textContent='Falhou a pesquisa. Verifica a ligação.'}}
-$('locBtn').onclick=()=>$('modal').classList.add('open');
-$('close').onclick=()=>$('modal').classList.remove('open');
-$('modal').addEventListener('click',e=>{if(e.target===$('modal'))$('modal').classList.remove('open')});
-$('search').onclick=search;$('gps').onclick=gps;$('place').addEventListener('keydown',e=>{if(e.key==='Enter')search()});
-
-let saved=null;try{saved=JSON.parse(store('seca-loc')||'null')}catch(e){}
-if(saved&&saved.lat!=null){loc=saved;$('locName').textContent=saved.name;forecast()}
-else{loc={lat:38.7223,lon:-9.1393,name:'Lisboa, Portugal'};$('locName').textContent=loc.name;$('help').textContent='A mostrar Lisboa. Procura a tua localidade ou usa a tua localização.';$('modal').classList.add('open');forecast()}
-setInterval(render,60000);setInterval(forecast,30*60000);
-</script>
-</body>
-</html>
+function setLoc(l){loc=l;$('locName').textContent=l.name;store('seca-loc',JSON.stringify(l));$('modal').clas
